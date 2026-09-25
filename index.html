@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>中秋祝福分享</title>
+<style>
+  :root { --green: #06c755; --text: #1f1f1f; --muted: #6b6b6b; --bg: #fafaf7; --card: #ffffff; --line: #e5e5e0; }
+  @media (prefers-color-scheme: dark) {
+    :root { --text: #f0f0f0; --muted: #a0a0a0; --bg: #16161a; --card: #22222a; --line: #34343c; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 16px; font-family: system-ui, -apple-system, "Noto Sans TC", sans-serif;
+         background: var(--bg); color: var(--text); line-height: 1.6; }
+  main { max-width: 480px; margin: 0 auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 4px; }
+  p.hint { color: var(--muted); margin: 0 0 20px; font-size: .95rem; }
+  label { display: block; font-weight: 600; margin: 16px 0 6px; }
+  input, textarea { width: 100%; padding: 10px 12px; font: inherit; color: var(--text); background: var(--card);
+                    border: 1px solid var(--line); border-radius: 10px; }
+  textarea { min-height: 96px; resize: vertical; }
+  button { width: 100%; margin-top: 24px; padding: 14px; font: inherit; font-weight: 700; color: #fff;
+           background: var(--green); border: 0; border-radius: 12px; cursor: pointer; }
+  button:disabled { opacity: .5; cursor: default; }
+  #status { margin-top: 16px; min-height: 1.6em; color: var(--muted); white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<main>
+  <h1>🥮 中秋祝福卡片</h1>
+  <p class="hint">改好內容後按下分享，選擇要傳給誰。對方會在聊天室直接看到卡片。</p>
+
+  <label for="title">標題</label>
+  <input id="title" value="中秋節快樂">
+
+  <label for="body">內容</label>
+  <textarea id="body">老婆，中秋節快樂！🥮🌕
+謝謝妳一直以來的陪伴，今晚一起賞月吧 ❤️</textarea>
+
+  <button id="share" disabled>分享卡片</button>
+  <div id="status">載入中…</div>
+</main>
+
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<script>
+  // 在 LINE Developers 建好 LIFF 小程式後，把 LIFF ID 填在這裡
+  const LIFF_ID = "REPLACE_WITH_LIFF_ID";
+
+  const $ = (id) => document.getElementById(id);
+  const status = (msg) => { $("status").textContent = msg; };
+
+  function buildFlex(title, body) {
+    return {
+      type: "flex",
+      altText: `${title}：${body.split("\n")[0]}`,
+      contents: {
+        type: "bubble",
+        size: "kilo",
+        header: {
+          type: "box", layout: "vertical", backgroundColor: "#1d2b53", paddingAll: "20px",
+          contents: [
+            { type: "text", text: "🌕", size: "3xl", align: "center" },
+            { type: "text", text: title, weight: "bold", size: "xl", color: "#ffd66b", align: "center", margin: "md" }
+          ]
+        },
+        body: {
+          type: "box", layout: "vertical", paddingAll: "20px", backgroundColor: "#fff8e7",
+          contents: [
+            { type: "text", text: body, wrap: true, size: "md", color: "#4a3b1f" }
+          ]
+        }
+      }
+    };
+  }
+
+  async function main() {
+    if (LIFF_ID.startsWith("REPLACE")) { status("尚未設定 LIFF ID。"); return; }
+    try {
+      await liff.init({ liffId: LIFF_ID });
+    } catch (e) {
+      status("LIFF 初始化失敗：" + e.message); return;
+    }
+    if (!liff.isLoggedIn()) { liff.login(); return; }
+    if (!liff.isApiAvailable("shareTargetPicker")) {
+      status("這個環境不支援分享功能。請在 LINE 裡打開，並確認 LIFF 設定已開啟 Share target picker。");
+      return;
+    }
+    $("share").disabled = false;
+    status("");
+    $("share").addEventListener("click", async () => {
+      const title = $("title").value.trim() || "中秋節快樂";
+      const body = $("body").value.trim();
+      if (!body) { status("內容不能是空的。"); return; }
+      $("share").disabled = true;
+      try {
+        const res = await liff.shareTargetPicker([buildFlex(title, body)]);
+        status(res ? "已送出 ✅" : "已取消，沒有送出。");
+      } catch (e) {
+        status("分享失敗：" + e.message);
+      } finally {
+        $("share").disabled = false;
+      }
+    });
+  }
+  main();
+</script>
+</body>
+</html>
