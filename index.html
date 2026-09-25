@@ -35,7 +35,7 @@
 <body>
 <main>
   <h1>Markdown → LINE 卡片</h1>
-  <p class="hint">貼上 Markdown，按分享後選擇對象。對方會直接在聊天室看到排版好的卡片（粗體、表格、清單等）。</p>
+  <p class="hint">貼上 Markdown，按分享後選擇對象。對方會直接在聊天室看到排版好的卡片（粗體、表格、清單等）。連結會列在卡片底部當按鈕；一段只有一個連結時，整段也可以點。</p>
 
   <label for="md">Markdown</label>
   <textarea id="md"># 範例標題
@@ -62,7 +62,7 @@
 
 ---
 
-最後一段文字。</textarea>
+參考：[LINE Flex Message 文件](https://developers.line.biz/en/docs/messaging-api/using-flex-messages/)</textarea>
 
   <label>預覽（近似樣子，實際以 LINE 顯示為準）</label>
   <div id="preview"></div>
@@ -94,7 +94,13 @@
         case "em":     out.push(...spans(t.tokens, { ...style, style: "italic" })); break;
         case "del":    out.push(...spans(t.tokens, { ...style, decoration: "line-through" })); break;
         case "codespan": out.push({ ...style, text: unescape(t.text), color: C.code }); break;
-        case "link":   out.push(...spans(t.tokens, { ...style, color: C.link, decoration: "underline" })); break;
+        case "link": {
+          const href = okUri(t.href) ? t.href : null;
+          const linkText = plain(t.tokens) || t.href;
+          if (href) links.push({ href, text: linkText });
+          out.push(...spans(t.tokens, { ...style, color: C.link, decoration: "underline", _href: href || undefined }));
+          break;
+        }
         case "br":     out.push({ ...style, text: "\n" }); break;
         case "text":   if (t.tokens) out.push(...spans(t.tokens, style)); else out.push({ ...style, text: unescape(t.text) }); break;
         case "escape": out.push({ ...style, text: t.text }); break;
@@ -106,13 +112,38 @@
   function unescape(s) {
     return String(s).replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
   }
-  // span 陣列 → Flex text 元件
+  // Flex 的 uri 動作只接受 http(s)、line、tel
+  function okUri(u) { return /^(https?:|line:|tel:)/i.test(u || ""); }
+
+  // 目前這一塊內容裡出現的連結（toFlex 逐塊收集，最後放到卡片底部當按鈕）
+  let links = [];
+
+  // span 陣列 → Flex text 元件。整段只有一個連結時，讓整段可點。
   function textComp(sp, extra = {}) {
-    const contents = sp.filter(s => s.text !== "").map(s => ({ type: "span", ...s }));
+    const hrefs = [...new Set(sp.map(s => s._href).filter(Boolean))];
+    const contents = sp.filter(s => s.text !== "").map(({ _href, ...s }) => ({ type: "span", ...s }));
     if (!contents.length) contents.push({ type: "span", text: " " });
-    return { type: "text", wrap: true, size: "sm", color: C.text, contents, ...extra };
+    const comp = { type: "text", wrap: true, size: "sm", color: C.text, contents, ...extra };
+    if (hrefs.length === 1) comp.action = { type: "uri", uri: hrefs[0] };
+    return comp;
   }
-  function plain(tokens) { return spans(tokens).map(s => s.text).join(""); }
+  // 取純文字時不收集連結
+  function plain(tokens) { const saved = links; links = []; const s = spans(tokens).map(s => s.text).join(""); links = saved; return s; }
+
+  // 按鈕文字：連結文字就是網址時改顯示網域；上限 20 字
+  function buttonLabel(l) {
+    let t = l.text.trim();
+    if (/^https?:\/\//i.test(t)) { try { t = new URL(t).hostname.replace(/^www\./, ""); } catch (e) {} }
+    t = "🔗 " + t;
+    return [...t].length > 20 ? [...t].slice(0, 19).join("") + "…" : t;
+  }
+  function linkFooter(list) {
+    const seen = new Set(); const uniq = list.filter(l => !seen.has(l.href) && seen.add(l.href)).slice(0, 10);
+    if (!uniq.length) return null;
+    return { type: "box", layout: "vertical", spacing: "none", paddingAll: "8px",
+      contents: uniq.map(l => ({ type: "button", style: "link", height: "sm",
+        action: { type: "uri", label: buttonLabel(l), uri: l.href } })) };
+  }
 
   // 區塊 token → Flex 元件陣列
   function blocks(tokens, depth = 0) {
@@ -182,18 +213,32 @@
   // 太長時拆成多張泡泡（carousel），每張 JSON 控制在約 25KB 內
   function toFlex(md) {
     const tokens = marked.lexer(md);
-    const comps = blocks(tokens);
+    // 逐塊轉換，同時記下每塊裡的連結，拆卡片時連結跟著內容走
+    const parts = [];
+    for (const t of tokens) {
+      links = [];
+      const cs = blocks([t]);
+      cs.forEach((c, i) => parts.push({ comp: c, links: i === cs.length - 1 ? links : [] }));
+    }
+    links = [];
+    const comps = parts.map(p => p.comp);
     const bubbles = []; let cur = [];
-    const size = (arr) => new TextEncoder().encode(JSON.stringify(arr)).length;
-    for (const c of comps) {
-      if (cur.length && size(cur.concat(c)) > 25000) { bubbles.push(cur); cur = []; }
-      cur.push(c);
+    const size = (arr) => new TextEncoder().encode(JSON.stringify(arr.map(p => p.comp))).length;
+    for (const p of parts) {
+      if (cur.length && size(cur.concat(p)) > 24000) { bubbles.push(cur); cur = []; }
+      cur.push(p);
     }
     if (cur.length) bubbles.push(cur);
     if (!bubbles.length) return null;
     if (bubbles.length > 12) throw new Error("內容太長，超過 12 張卡片的上限，請分次傳送。");
-    const bubble = (contents) => ({ type: "bubble", size: "giga",
-      body: { type: "box", layout: "vertical", paddingAll: "16px", contents: [{ ...contents[0], margin: "none" }, ...contents.slice(1)] } });
+    const bubble = (ps) => {
+      const contents = ps.map(p => p.comp);
+      const b = { type: "bubble", size: "giga",
+        body: { type: "box", layout: "vertical", paddingAll: "16px", contents: [{ ...contents[0], margin: "none" }, ...contents.slice(1)] } };
+      const footer = linkFooter(ps.flatMap(p => p.links));
+      if (footer) b.footer = footer;
+      return b;
+    };
     const plainText = comps.length ? md.replace(/[#*_`>|~-]/g, "").replace(/\s+/g, " ").trim() : "";
     return {
       type: "flex",
