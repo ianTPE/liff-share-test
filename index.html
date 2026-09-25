@@ -38,31 +38,52 @@
   <p class="hint">貼上 Markdown，按分享後選擇對象。對方會直接在聊天室看到排版好的卡片（粗體、表格、清單等）。連結會列在卡片底部當按鈕；一段只有一個連結時，整段也可以點。</p>
 
   <label for="md">Markdown</label>
-  <textarea id="md"># 範例標題
+  <textarea id="md"># Paperclip：多 Agent 管理平台
 
-這是**粗體**、*斜體*、~~刪除線~~ 和 `程式碼`。
+影片：https://www.youtube.com/watch?v=7RVf25Rg0Mc
 
-## 表格
+## 重點摘要
 
-| 項目 | 數量 | 備註 |
+- **Meta-Harness 框架**：開源的多 Agent 管理平台，把 Claude Code、Codex、Hermes、Pi 及本地模型統整進同一個組織架構。
+- **以任務為核心**：Agent 之間的溝通綁定在任務、子任務與層級回報線上，不是漫無目的的「Agent 聊天室」。
+- **人類是董事會**：位於組織最頂層，核准 Agent 聘僱、裁決關鍵決策（Decisions）、處理升級回報的阻礙。
+- **Artifacts 與 Routines**：產出（拓撲圖、報告、程式碼）集中留存追蹤；Routines 可排程健康檢查或每日立會（Standup）。
+
+## 1. 痛點與解法
+
+- **痛點**：同時用多套 Agent 時，難追蹤進度、釐清分工，跨 Agent 溝通與資安控管也困難。
+- **解法**：把 Agent 變成公司裡的「員工」，有職稱、主管與明確職責。
+- **實測場景**：NetworkChuck 的工作室「只要有人沖馬桶，NAS 就斷線」，用 Paperclip 組一個 AI IT 部門來排查。
+
+## 2. 部署與組織
+
+- **運行環境**：macOS、Linux、Windows WSL2，也可放 Proxmox 虛擬機或雲端 VPS。
+- **聘僱流程**：新 Agent 要由人類以董事會身分按 Approve 才入職。
+
+| 角色 | 名字 | 驅動 |
 |---|---|---|
-| 蘋果 | 3 | **當季** |
-| 香蕉 | 12 | 熟了 |
+| CEO | Dumbledore | Claude Code |
+| CTO | Ron | Hermes |
+| 網路工程師 | Fred | Hermes |
+| 儲存工程師 | George | Hermes |
+| 系統架構 | Arthur Weasley | Codex |
+| 資安審查 | Mad-Eye Moody | Codex |
+| 網路掃描 | — | Pi |
 
-## 清單
+## 3. 排查 NAS 斷線
 
-- 第一點
-- 第二點，含**重點**
-  - 子項目
+1. **任務拆解**：人類把任務交給 CEO，CEO 建專案、拆子任務，分派給網路、儲存、資安專員。
+2. **產出追蹤**：網路工程師自動登入交換器，產出網路拓撲報告，存進 Artifacts。
+3. **決策互動**：需要人類確認時，Agent 主動提出決策單（例如是否執行受控測試）。
+4. **排除項目**：NAS 當機、路由器死當、Spanning Tree 迴圈。
 
-1. 步驟一
-2. 步驟二
+&gt; **真因**：MikroTik 交換器第 3、5、13、19 埠用了平價副廠 SFP 光纖模組，容錯率低。關門或機架震動時訊號瞬間中斷。**對策**：全面換成原廠規格 SFP。
 
-> 這是一段引言。
+## 4. 自動化與整合
 
----
-
-參考：[LINE Flex Message 文件](https://developers.line.biz/en/docs/messaging-api/using-flex-messages/)</textarea>
+- **Routines**：類似 Cron，定期巡檢儲存容量與健康度，異常時自動產生決策單；也能跑多 Agent 每日 Standup。
+- **Flare 資安情資**：新增 Agent（Filch）串接 Flare API，監控暗網外洩憑證與竊資軟體紀錄。
+- **組織匯出／匯入**：整個虛擬公司（Agent 配置、Routine、任務設定）可打包成 Blueprint 移轉。</textarea>
 
   <label>預覽（近似樣子，實際以 LINE 顯示為準）</label>
   <div id="preview"></div>
