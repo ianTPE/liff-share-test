@@ -1,0 +1,209 @@
+{
+ "type": "flex",
+ "altText": "週末，留一點時間給自己",
+ "contents": {
+  "type": "bubble",
+  "size": "mega",
+  "header": {
+   "type": "box",
+   "layout": "vertical",
+   "paddingAll": "0px",
+   "backgroundColor": "#EAF4EE",
+   "contents": [
+    {
+     "type": "image",
+     "url": "https://iantpe.github.io/liff-share-test/assets/weekend-title.png",
+     "animated": true,
+     "size": "full",
+     "aspectRatio": "1040:200",
+     "aspectMode": "cover"
+    }
+   ]
+  },
+  "body": {
+   "type": "box",
+   "layout": "vertical",
+   "contents": [
+    {
+     "type": "text",
+     "wrap": true,
+     "size": "15px",
+     "color": "#203A31",
+     "contents": [
+      {
+       "type": "span",
+       "text": "一杯好咖啡，一個慢下來的午後。"
+      },
+      {
+       "type": "span",
+       "text": "\n"
+      },
+      {
+       "type": "span",
+       "text": "一起在城市裡，找到生活的小風景。"
+      }
+     ]
+    },
+    {
+     "type": "text",
+     "text": "週末手沖小聚",
+     "wrap": true,
+     "size": "18px",
+     "color": "#16715B",
+     "weight": "bold"
+    },
+    {
+     "type": "box",
+     "layout": "horizontal",
+     "contents": [
+      {
+       "type": "text",
+       "text": "•",
+       "wrap": true,
+       "size": "15px",
+       "color": "#16715B",
+       "flex": 0
+      },
+      {
+       "type": "box",
+       "layout": "vertical",
+       "contents": [
+        {
+         "type": "text",
+         "wrap": true,
+         "size": "15px",
+         "color": "#203A31",
+         "contents": [
+          {
+           "type": "span",
+           "text": "時間",
+           "weight": "bold"
+          },
+          {
+           "type": "span",
+           "text": "｜10/18（日）14:00–16:00"
+          }
+         ]
+        }
+       ],
+       "flex": 1,
+       "spacing": "sm"
+      }
+     ],
+     "spacing": "sm"
+    },
+    {
+     "type": "box",
+     "layout": "horizontal",
+     "contents": [
+      {
+       "type": "text",
+       "text": "•",
+       "wrap": true,
+       "size": "15px",
+       "color": "#16715B",
+       "flex": 0
+      },
+      {
+       "type": "box",
+       "layout": "vertical",
+       "contents": [
+        {
+         "type": "text",
+         "wrap": true,
+         "size": "15px",
+         "color": "#203A31",
+         "contents": [
+          {
+           "type": "span",
+           "text": "地點",
+           "weight": "bold"
+          },
+          {
+           "type": "span",
+           "text": "｜小日子咖啡工作室"
+          }
+         ]
+        }
+       ],
+       "flex": 1,
+       "spacing": "sm"
+      }
+     ],
+     "spacing": "sm"
+    },
+    {
+     "type": "box",
+     "layout": "horizontal",
+     "contents": [
+      {
+       "type": "text",
+       "text": "•",
+       "wrap": true,
+       "size": "15px",
+       "color": "#16715B",
+       "flex": 0
+      },
+      {
+       "type": "box",
+       "layout": "vertical",
+       "contents": [
+        {
+         "type": "text",
+         "wrap": true,
+         "size": "15px",
+         "color": "#203A31",
+         "contents": [
+          {
+           "type": "span",
+           "text": "費用",
+           "weight": "bold"
+          },
+          {
+           "type": "span",
+           "text": "｜NT$ 680／人"
+          }
+         ]
+        }
+       ],
+       "flex": 1,
+       "spacing": "sm"
+      }
+     ],
+     "spacing": "sm"
+    },
+    {
+     "type": "box",
+     "layout": "vertical",
+     "contents": [
+      {
+       "type": "text",
+       "text": "只需要帶著好奇心，其他的交給我們。",
+       "wrap": true,
+       "size": "15px",
+       "color": "#203A31"
+      }
+     ],
+     "backgroundColor": "#EAF4EE",
+     "paddingAll": "12px",
+     "cornerRadius": "6px",
+     "spacing": "sm"
+    },
+    {
+     "type": "button",
+     "style": "primary",
+     "color": "#16715B",
+     "height": "sm",
+     "action": {
+      "type": "uri",
+      "label": "看看活動詳情",
+      "uri": "https://example.com/workshop"
+     }
+    }
+   ],
+   "spacing": "md",
+   "paddingAll": "20px",
+   "backgroundColor": "#FFFFFF"
+  }
+ }
+}
