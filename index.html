@@ -3,100 +3,238 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>中秋祝福分享</title>
+<title>Markdown 分享</title>
 <style>
-  :root { --green: #06c755; --text: #1f1f1f; --muted: #6b6b6b; --bg: #fafaf7; --card: #ffffff; --line: #e5e5e0; }
+  :root { --green: #06c755; --text: #1f1f1f; --muted: #6b6b6b; --bg: #fafaf7; --card: #ffffff; --line: #e5e5e0; --code: #f3f3f0; }
   @media (prefers-color-scheme: dark) {
-    :root { --text: #f0f0f0; --muted: #a0a0a0; --bg: #16161a; --card: #22222a; --line: #34343c; }
+    :root { --text: #f0f0f0; --muted: #a0a0a0; --bg: #16161a; --card: #22222a; --line: #34343c; --code: #2c2c34; }
   }
   * { box-sizing: border-box; }
-  body { margin: 0; padding: 24px 16px; font-family: system-ui, -apple-system, "Noto Sans TC", sans-serif;
+  body { margin: 0; padding: 20px 16px 40px; font-family: system-ui, -apple-system, "Noto Sans TC", sans-serif;
          background: var(--bg); color: var(--text); line-height: 1.6; }
-  main { max-width: 480px; margin: 0 auto; }
-  h1 { font-size: 1.4rem; margin: 0 0 4px; }
-  p.hint { color: var(--muted); margin: 0 0 20px; font-size: .95rem; }
-  label { display: block; font-weight: 600; margin: 16px 0 6px; }
-  input, textarea { width: 100%; padding: 10px 12px; font: inherit; color: var(--text); background: var(--card);
-                    border: 1px solid var(--line); border-radius: 10px; }
-  textarea { min-height: 96px; resize: vertical; }
-  button { width: 100%; margin-top: 24px; padding: 14px; font: inherit; font-weight: 700; color: #fff;
+  main { max-width: 560px; margin: 0 auto; }
+  h1 { font-size: 1.3rem; margin: 0 0 4px; }
+  p.hint { color: var(--muted); margin: 0 0 16px; font-size: .92rem; }
+  label { display: block; font-weight: 600; margin: 14px 0 6px; }
+  textarea { width: 100%; min-height: 220px; padding: 10px 12px; font: 14px/1.5 ui-monospace, Menlo, monospace;
+             color: var(--text); background: var(--card); border: 1px solid var(--line); border-radius: 10px; resize: vertical; }
+  button { width: 100%; margin-top: 20px; padding: 14px; font: inherit; font-weight: 700; color: #fff;
            background: var(--green); border: 0; border-radius: 12px; cursor: pointer; }
   button:disabled { opacity: .5; cursor: default; }
-  #status { margin-top: 16px; min-height: 1.6em; color: var(--muted); white-space: pre-wrap; }
+  #status { margin-top: 14px; min-height: 1.6em; color: var(--muted); white-space: pre-wrap; }
+  #preview { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 14px; overflow-x: auto; }
+  #preview table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+  #preview th, #preview td { border-bottom: 1px solid var(--line); padding: 4px 6px; text-align: left; }
+  #preview code { background: var(--code); padding: 0 4px; border-radius: 4px; }
+  #preview pre { background: var(--code); padding: 8px; border-radius: 8px; overflow-x: auto; }
+  #preview blockquote { margin: 0; padding-left: 10px; border-left: 3px solid var(--line); color: var(--muted); }
+  details { margin-top: 14px; color: var(--muted); font-size: .85rem; }
+  details pre { white-space: pre-wrap; word-break: break-all; max-height: 240px; overflow: auto; }
 </style>
 </head>
 <body>
 <main>
-  <h1>🥮 中秋祝福卡片</h1>
-  <p class="hint">改好內容後按下分享，選擇要傳給誰。對方會在聊天室直接看到卡片。</p>
+  <h1>Markdown → LINE 卡片</h1>
+  <p class="hint">貼上 Markdown，按分享後選擇對象。對方會直接在聊天室看到排版好的卡片（粗體、表格、清單等）。</p>
 
-  <label for="title">標題</label>
-  <input id="title" value="中秋節快樂">
+  <label for="md">Markdown</label>
+  <textarea id="md"># 範例標題
 
-  <label for="body">內容</label>
-  <textarea id="body">老婆，中秋節快樂！🥮🌕
-謝謝妳一直以來的陪伴，今晚一起賞月吧 ❤️</textarea>
+這是**粗體**、*斜體*、~~刪除線~~ 和 `程式碼`。
+
+## 表格
+
+| 項目 | 數量 | 備註 |
+|---|---|---|
+| 蘋果 | 3 | **當季** |
+| 香蕉 | 12 | 熟了 |
+
+## 清單
+
+- 第一點
+- 第二點，含**重點**
+  - 子項目
+
+1. 步驟一
+2. 步驟二
+
+> 這是一段引言。
+
+---
+
+最後一段文字。</textarea>
+
+  <label>預覽（近似樣子，實際以 LINE 顯示為準）</label>
+  <div id="preview"></div>
 
   <button id="share" disabled>分享卡片</button>
   <div id="status">載入中…</div>
+
+  <details><summary>Flex JSON（除錯用）</summary><pre id="json"></pre></details>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script>
-  // 在 LINE Developers 建好 LIFF 小程式後，把 LIFF ID 填在這裡
   const LIFF_ID = "2011736396-qcyiLRJ3";
 
   const $ = (id) => document.getElementById(id);
   const status = (msg) => { $("status").textContent = msg; };
 
-  function buildFlex(title, body) {
+  // ---------- Markdown → Flex ----------
+  const C = { text: "#222222", muted: "#777777", code: "#c7254e", link: "#1a73e8", codeBg: "#f3f3f0", quote: "#cccccc", head: "#f7f7f5", line: "#e5e5e5" };
+  const HEAD_SIZE = { 1: "xl", 2: "lg", 3: "md", 4: "md", 5: "sm", 6: "sm" };
+
+  // 行內 token → span 陣列
+  function spans(tokens, style = {}) {
+    const out = [];
+    for (const t of tokens || []) {
+      switch (t.type) {
+        case "strong": out.push(...spans(t.tokens, { ...style, weight: "bold" })); break;
+        case "em":     out.push(...spans(t.tokens, { ...style, style: "italic" })); break;
+        case "del":    out.push(...spans(t.tokens, { ...style, decoration: "line-through" })); break;
+        case "codespan": out.push({ ...style, text: unescape(t.text), color: C.code }); break;
+        case "link":   out.push(...spans(t.tokens, { ...style, color: C.link, decoration: "underline" })); break;
+        case "br":     out.push({ ...style, text: "\n" }); break;
+        case "text":   if (t.tokens) out.push(...spans(t.tokens, style)); else out.push({ ...style, text: unescape(t.text) }); break;
+        case "escape": out.push({ ...style, text: t.text }); break;
+        default:       if (t.text) out.push({ ...style, text: unescape(t.text) });
+      }
+    }
+    return out;
+  }
+  function unescape(s) {
+    return String(s).replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+  }
+  // span 陣列 → Flex text 元件
+  function textComp(sp, extra = {}) {
+    const contents = sp.filter(s => s.text !== "").map(s => ({ type: "span", ...s }));
+    if (!contents.length) contents.push({ type: "span", text: " " });
+    return { type: "text", wrap: true, size: "sm", color: C.text, contents, ...extra };
+  }
+  function plain(tokens) { return spans(tokens).map(s => s.text).join(""); }
+
+  // 區塊 token → Flex 元件陣列
+  function blocks(tokens, depth = 0) {
+    const out = [];
+    for (const t of tokens) {
+      switch (t.type) {
+        case "heading":
+          out.push(textComp(spans(t.tokens, { weight: "bold" }), { size: HEAD_SIZE[t.depth] || "md", margin: "lg" }));
+          break;
+        case "paragraph":
+          out.push(textComp(spans(t.tokens), { margin: "md" }));
+          break;
+        case "text":
+          out.push(textComp(spans(t.tokens || [{ type: "text", text: t.text }]), { margin: "sm" }));
+          break;
+        case "list":
+          t.items.forEach((item, i) => {
+            const bullet = t.ordered ? `${(t.start || 1) + i}.` : (depth ? "◦" : "•");
+            const inner = blocks(item.tokens, depth + 1);
+            out.push({ type: "box", layout: "horizontal", margin: "sm", paddingStart: depth ? "12px" : "0px", spacing: "sm",
+              contents: [
+                { type: "text", text: bullet, size: "sm", color: C.muted, flex: 0 },
+                { type: "box", layout: "vertical", flex: 1, contents: inner.map(c => ({ ...c, margin: c.margin === "md" ? "none" : c.margin })) }
+              ] });
+          });
+          break;
+        case "table":
+          out.push(table(t));
+          break;
+        case "code":
+          out.push({ type: "box", layout: "vertical", margin: "md", backgroundColor: C.codeBg, cornerRadius: "6px", paddingAll: "8px",
+            contents: [{ type: "text", text: t.text || " ", wrap: true, size: "xs", color: "#333333" }] });
+          break;
+        case "blockquote":
+          out.push({ type: "box", layout: "horizontal", margin: "md", spacing: "md",
+            contents: [
+              { type: "box", layout: "vertical", width: "3px", backgroundColor: C.quote, contents: [{ type: "filler" }] },
+              { type: "box", layout: "vertical", flex: 1, contents: blocks(t.tokens, depth).map(c => c.type === "text" ? { ...c, color: C.muted } : c) }
+            ] });
+          break;
+        case "hr":
+          out.push({ type: "separator", margin: "lg" });
+          break;
+        case "space": case "html": case "def": break;
+        default:
+          if (t.text) out.push(textComp([{ text: t.text }], { margin: "md" }));
+      }
+    }
+    return out;
+  }
+
+  function table(t) {
+    const align = (a) => a === "right" ? "end" : a === "center" ? "center" : "start";
+    const row = (cells, head) => ({
+      type: "box", layout: "horizontal", spacing: "sm", paddingTop: "4px", paddingBottom: "4px",
+      paddingStart: "4px", paddingEnd: "4px", backgroundColor: head ? C.head : undefined,
+      contents: cells.map((c, i) => textComp(spans(c.tokens, head ? { weight: "bold" } : {}),
+        { flex: 1, size: "xs", align: align(t.align[i]) }))
+    });
+    const rows = [row(t.header, true)];
+    t.rows.forEach(r => { rows.push({ type: "separator", color: C.line }); rows.push(row(r, false)); });
+    // 移除 undefined 的 backgroundColor
+    rows.forEach(r => { if (r.backgroundColor === undefined) delete r.backgroundColor; });
+    return { type: "box", layout: "vertical", margin: "md", cornerRadius: "6px", borderWidth: "1px", borderColor: C.line, contents: rows };
+  }
+
+  // 太長時拆成多張泡泡（carousel），每張 JSON 控制在約 25KB 內
+  function toFlex(md) {
+    const tokens = marked.lexer(md);
+    const comps = blocks(tokens);
+    const bubbles = []; let cur = [];
+    const size = (arr) => new TextEncoder().encode(JSON.stringify(arr)).length;
+    for (const c of comps) {
+      if (cur.length && size(cur.concat(c)) > 25000) { bubbles.push(cur); cur = []; }
+      cur.push(c);
+    }
+    if (cur.length) bubbles.push(cur);
+    if (!bubbles.length) return null;
+    if (bubbles.length > 12) throw new Error("內容太長，超過 12 張卡片的上限，請分次傳送。");
+    const bubble = (contents) => ({ type: "bubble", size: "giga",
+      body: { type: "box", layout: "vertical", paddingAll: "16px", contents: [{ ...contents[0], margin: "none" }, ...contents.slice(1)] } });
+    const plainText = comps.length ? md.replace(/[#*_`>|~-]/g, "").replace(/\s+/g, " ").trim() : "";
     return {
       type: "flex",
-      altText: `${title}：${body.split("\n")[0]}`,
-      contents: {
-        type: "bubble",
-        size: "kilo",
-        header: {
-          type: "box", layout: "vertical", backgroundColor: "#1d2b53", paddingAll: "20px",
-          contents: [
-            { type: "text", text: "🌕", size: "3xl", align: "center" },
-            { type: "text", text: title, weight: "bold", size: "xl", color: "#ffd66b", align: "center", margin: "md" }
-          ]
-        },
-        body: {
-          type: "box", layout: "vertical", paddingAll: "20px", backgroundColor: "#fff8e7",
-          contents: [
-            { type: "text", text: body, wrap: true, size: "md", color: "#4a3b1f" }
-          ]
-        }
-      }
+      altText: (plainText || "訊息").slice(0, 100),
+      contents: bubbles.length === 1 ? bubble(bubbles[0]) : { type: "carousel", contents: bubbles.map(bubble) }
     };
   }
 
-  async function main() {
-    if (LIFF_ID.startsWith("REPLACE")) { status("尚未設定 LIFF ID。"); return; }
+  function refresh() {
+    const md = $("md").value;
+    $("preview").innerHTML = marked.parse(md);
     try {
-      await liff.init({ liffId: LIFF_ID });
-    } catch (e) {
-      status("LIFF 初始化失敗：" + e.message); return;
-    }
+      const flex = toFlex(md);
+      $("json").textContent = flex ? JSON.stringify(flex, null, 2) : "";
+      return flex;
+    } catch (e) { $("json").textContent = e.message; return null; }
+  }
+
+  // ---------- LIFF ----------
+  async function main() {
+    refresh();
+    $("md").addEventListener("input", refresh);
+    try { await liff.init({ liffId: LIFF_ID }); }
+    catch (e) { status("LIFF 初始化失敗：" + e.message); return; }
+    if (!liff.isInClient() && !liff.isLoggedIn()) { status("請在 LINE 裡打開這個頁面才能分享。預覽仍可使用。"); return; }
     if (!liff.isLoggedIn()) { liff.login(); return; }
     if (!liff.isApiAvailable("shareTargetPicker")) {
-      status("這個環境不支援分享功能。請在 LINE 裡打開，並確認 LIFF 設定已開啟 Share target picker。");
-      return;
+      status("這個環境不支援分享功能。請在 LINE 裡打開，並確認 LIFF 設定已開啟 Share target picker。"); return;
     }
     $("share").disabled = false;
     status("");
     $("share").addEventListener("click", async () => {
-      const title = $("title").value.trim() || "中秋節快樂";
-      const body = $("body").value.trim();
-      if (!body) { status("內容不能是空的。"); return; }
+      let flex;
+      try { flex = toFlex($("md").value); } catch (e) { status(e.message); return; }
+      if (!flex) { status("內容是空的。"); return; }
       $("share").disabled = true;
       try {
-        const res = await liff.shareTargetPicker([buildFlex(title, body)]);
+        const res = await liff.shareTargetPicker([flex]);
         status(res ? "已送出 ✅" : "已取消，沒有送出。");
       } catch (e) {
-        status("分享失敗：" + e.message);
+        status("分享失敗：" + e.message + "\n可展開下方 Flex JSON，貼到 LINE 的 Flex Message Simulator 檢查。");
       } finally {
         $("share").disabled = false;
       }
