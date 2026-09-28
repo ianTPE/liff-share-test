@@ -1,0 +1,677 @@
+{
+  "type": "flex",
+  "altText": "榮惠 9/11 新聞監測｜9則露出、4則轉載，共13則",
+  "contents": {
+    "type": "bubble",
+    "size": "mega",
+    "header": {
+      "type": "box",
+      "layout": "vertical",
+      "backgroundColor": "#123843",
+      "paddingAll": "18px",
+      "contents": [
+        {
+          "type": "text",
+          "text": "MEDIA WATCH  /  09.11",
+          "size": "xs",
+          "color": "#A4DDE0",
+          "wrap": true,
+          "weight": "bold"
+        },
+        {
+          "type": "text",
+          "text": "榮惠｜新聞監測",
+          "size": "xl",
+          "color": "#FFFFFF",
+          "wrap": true,
+          "margin": "sm",
+          "weight": "bold"
+        },
+        {
+          "type": "text",
+          "text": "9/10 發稿・9/11 監測",
+          "size": "xs",
+          "color": "#C7E2E4",
+          "wrap": true,
+          "margin": "sm"
+        }
+      ]
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "backgroundColor": "#FFFFFF",
+      "paddingAll": "16px",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "vertical",
+              "flex": 1,
+              "backgroundColor": "#F1F7F8",
+              "cornerRadius": "10px",
+              "paddingAll": "10px",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "9",
+                  "size": "xl",
+                  "color": "#006B73",
+                  "wrap": true,
+                  "align": "center",
+                  "weight": "bold"
+                },
+                {
+                  "type": "text",
+                  "text": "新聞露出",
+                  "size": "xs",
+                  "color": "#57737C",
+                  "wrap": true,
+                  "align": "center"
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "flex": 1,
+              "backgroundColor": "#F1F7F8",
+              "cornerRadius": "10px",
+              "paddingAll": "10px",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "4",
+                  "size": "xl",
+                  "color": "#006B73",
+                  "wrap": true,
+                  "align": "center",
+                  "weight": "bold"
+                },
+                {
+                  "type": "text",
+                  "text": "轉載",
+                  "size": "xs",
+                  "color": "#57737C",
+                  "wrap": true,
+                  "align": "center"
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "flex": 1,
+              "backgroundColor": "#F1F7F8",
+              "cornerRadius": "10px",
+              "paddingAll": "10px",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "13",
+                  "size": "xl",
+                  "color": "#006B73",
+                  "wrap": true,
+                  "align": "center",
+                  "weight": "bold"
+                },
+                {
+                  "type": "text",
+                  "text": "總計",
+                  "size": "xs",
+                  "color": "#57737C",
+                  "wrap": true,
+                  "align": "center"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": "這一波報導聚焦兩件事：8月營收再創高，以及AI水冷模組需求帶來的成長。",
+          "size": "sm",
+          "color": "#203943",
+          "wrap": true,
+          "margin": "lg"
+        },
+        {
+          "type": "text",
+          "text": "數字在不同報導中有2.42億與2.43億元的寫法；以下保留各篇標題的口徑。",
+          "size": "xs",
+          "color": "#627780",
+          "wrap": true,
+          "margin": "sm"
+        },
+        {
+          "type": "separator",
+          "margin": "lg",
+          "color": "#DCE8EA"
+        },
+        {
+          "type": "text",
+          "text": "13 則報導｜點卡片開原文",
+          "size": "sm",
+          "color": "#123843",
+          "wrap": true,
+          "margin": "lg",
+          "weight": "bold"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "backgroundColor": "#F7FAFA",
+          "cornerRadius": "8px",
+          "paddingAll": "10px",
+          "margin": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "01  工商時報",
+              "size": "xs",
+              "color": "#087985",
+              "wrap": true,
+              "weight": "bold"
+            },
+            {
+              "type": "text",
+              "text": "PCB三雄8月營收齊創高",
+              "size": "sm",
+              "color": "#203943",
+              "wrap": true,
+              "margin": "xs"
+            },
+            {
+              "type": "text",
+              "text": "點開原文  ↗",
+              "size": "xxs",
+              "color": "#087985",
+              "wrap": true,
+              "margin": "xs"
+            }
+          ],
+          "action": {
+            "type": "uri",
+            "label": "開啟工商時報報導",
+            "uri": "https://www.ctee.com.tw/news/20260911700212-430502"
+          }
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "backgroundColor": "#F7FAFA",
+          "cornerRadius": "8px",
+          "paddingAll": "10px",
+          "margin": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "02  經濟日報",
+              "size": "xs",
+              "color": "#087985",
+              "wrap": true,
+              "weight": "bold"
+            },
+            {
+              "type": "text",
+              "text": "8月營收2.42億元、月增31%，再創新高",
+              "size": "sm",
+              "color": "#203943",
+              "wrap": true,
+              "margin": "xs"
+            },
+            {
+              "type": "text",
+              "text": "點開原文  ↗",
+              "size": "xxs",
+              "color": "#087985",
+              "wrap": true,
+              "margin": "xs"
+            }
+          ],
+          "action": {
+            "type": "uri",
+            "label": "開啟經濟日報報導",
+            "uri": "https://money.udn.com/money/story/5710/9746432?from=edn_search_result"
+          }
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "backgroundColor": "#F7FAFA",
+          "cornerRadius": "8px",
+          "paddingAll": "10px",
+          "margin": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "03  經濟日報  ·  轉載",
+              "size": "xs",
+              "color": "#087985",
+              "wrap": true,
+              "weight": "bold"
+            },
+            {
+              "type": "text",
+              "text": "AI水冷訂單激增，8月營收年增85%",
+              "size": "sm",
+              "color": "#203943",
+              "wrap": true,
+              "margin": "xs"
+            },
+            {
+              "type": "text",
+              "text": "點開原文  ↗",
+              "size": "xxs",
+              "color": "#087985",
+              "wrap": true,
+              "margin": "xs"
+            }
+          ],
+          "action": {
+            "type": "uri",
+            "label": "開啟經濟日報報導",
+            "uri": "https://money.udn.com/money/story/5612/9746772?from=edn_search_result"
+          }
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "backgroundColor": "#F7FAFA",
+          "cornerRadius": "8px",
+          "paddingAll": "10px",
+          "margin": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "04  聯合報",
+              "size": "xs",
+              "color": "#087985",
+              "wrap": true,
+              "weight": "bold"
+            },
+            {
+              "type": "text",
+              "text": "AI水冷模組訂單激增，營收年增85%",
+              "size": "sm",
+              "color": "#203943",
+              "wrap": true,
+              "margin": "xs"
+            },
+            {
+              "type": "text",
+              "text": "點開原文  ↗",
+              "size": "xxs",
+              "color": "#087985",
+              "wrap": true,
+              "margin": "xs"
+            }
+          ],
+          "action": {
+            "type": "uri",
+            "label": "開啟聯合報報導",
+            "uri": "https://udn.com/news/story/7240/9746772"
+          }
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "backgroundColor": "#F7FAFA",
+          "cornerRadius": "8px",
+          "paddingAll": "10px",
+          "margin": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "05  聯合新聞網  ·  轉載",
+              "size": "xs",
+              "color": "#087985",
+              "wrap": true,
+              "weight": "bold"
+            },
+            {
+              "type": "text",
+              "text": "8月營收2.42億元、月增31%",
+              "size": "sm",
+              "color": "#203943",
+              "wrap": true,
+              "margin": "xs"
+            },
+            {
+              "type": "text",
+              "text": "點開原文  ↗",
+              "size": "xxs",
+              "color": "#087985",
+              "wrap": true,
+              "margin": "xs"
+            }
+          ],
+          "action": {
+            "type": "uri",
+            "label": "開啟聯合新聞網報導",
+            "uri": "https://udn.com/news/story/7252/9746432?from=udn-relatednews_ch2"
+          }
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "backgroundColor": "#F7FAFA",
+          "cornerRadius": "8px",
+          "paddingAll": "10px",
+          "margin": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "06  中時新聞網  ·  轉載",
+              "size": "xs",
+              "color": "#087985",
+              "wrap": true,
+              "weight": "bold"
+            },
+            {
+              "type": "text",
+              "text": "PCB三雄8月營收齊創高",
+              "size": "sm",
+              "color": "#203943",
+              "wrap": true,
+              "margin": "xs"
+            },
+            {
+              "type": "text",
+              "text": "原清單未附網址",
+              "size": "xxs",
+              "color": "#7E8A90",
+              "wrap": true,
+              "margin": "xs"
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "backgroundColor": "#F7FAFA",
+          "cornerRadius": "8px",
+          "paddingAll": "10px",
+          "margin": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "07  鉅亨網",
+              "size": "xs",
+              "color": "#087985",
+              "wrap": true,
+              "weight": "bold"
+            },
+            {
+              "type": "text",
+              "text": "AI水冷訂單激增，營收2.42億元",
+              "size": "sm",
+              "color": "#203943",
+              "wrap": true,
+              "margin": "xs"
+            },
+            {
+              "type": "text",
+              "text": "點開原文  ↗",
+              "size": "xxs",
+              "color": "#087985",
+              "wrap": true,
+              "margin": "xs"
+            }
+          ],
+          "action": {
+            "type": "uri",
+            "label": "開啟鉅亨網報導",
+            "uri": "https://news.cnyes.com/news/id/6602892"
+          }
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "backgroundColor": "#F7FAFA",
+          "cornerRadius": "8px",
+          "paddingAll": "10px",
+          "margin": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "08  財經新報",
+              "size": "xs",
+              "color": "#087985",
+              "wrap": true,
+              "weight": "bold"
+            },
+            {
+              "type": "text",
+              "text": "水冷CDU單月出貨上千台",
+              "size": "sm",
+              "color": "#203943",
+              "wrap": true,
+              "margin": "xs"
+            },
+            {
+              "type": "text",
+              "text": "點開原文  ↗",
+              "size": "xxs",
+              "color": "#087985",
+              "wrap": true,
+              "margin": "xs"
+            }
+          ],
+          "action": {
+            "type": "uri",
+            "label": "開啟財經新報報導",
+            "uri": "https://finance.technews.tw/2026/09/10/cdu/"
+          }
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "backgroundColor": "#F7FAFA",
+          "cornerRadius": "8px",
+          "paddingAll": "10px",
+          "margin": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "09  自立晚報",
+              "size": "xs",
+              "color": "#087985",
+              "wrap": true,
+              "weight": "bold"
+            },
+            {
+              "type": "text",
+              "text": "8月營收再創高，年增85%",
+              "size": "sm",
+              "color": "#203943",
+              "wrap": true,
+              "margin": "xs"
+            },
+            {
+              "type": "text",
+              "text": "點開原文  ↗",
+              "size": "xxs",
+              "color": "#087985",
+              "wrap": true,
+              "margin": "xs"
+            }
+          ],
+          "action": {
+            "type": "uri",
+            "label": "開啟自立晚報報導",
+            "uri": "https://www.idn.com.tw/news/news_content.aspx?catid=3&catsid=1&catdid=0&artid=20260910kofang015"
+          }
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "backgroundColor": "#F7FAFA",
+          "cornerRadius": "8px",
+          "paddingAll": "10px",
+          "margin": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "10  FTNN新聞網",
+              "size": "xs",
+              "color": "#087985",
+              "wrap": true,
+              "weight": "bold"
+            },
+            {
+              "type": "text",
+              "text": "PCB三雄營收齊創高",
+              "size": "sm",
+              "color": "#203943",
+              "wrap": true,
+              "margin": "xs"
+            },
+            {
+              "type": "text",
+              "text": "點開原文  ↗",
+              "size": "xxs",
+              "color": "#087985",
+              "wrap": true,
+              "margin": "xs"
+            }
+          ],
+          "action": {
+            "type": "uri",
+            "label": "開啟FTNN新聞網報導",
+            "uri": "https://www.ftnn.com.tw/news/578030"
+          }
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "backgroundColor": "#F7FAFA",
+          "cornerRadius": "8px",
+          "paddingAll": "10px",
+          "margin": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "11  富聯網",
+              "size": "xs",
+              "color": "#087985",
+              "wrap": true,
+              "weight": "bold"
+            },
+            {
+              "type": "text",
+              "text": "8月營收2.43億元，年增84.99%",
+              "size": "sm",
+              "color": "#203943",
+              "wrap": true,
+              "margin": "xs"
+            },
+            {
+              "type": "text",
+              "text": "點開原文  ↗",
+              "size": "xxs",
+              "color": "#087985",
+              "wrap": true,
+              "margin": "xs"
+            }
+          ],
+          "action": {
+            "type": "uri",
+            "label": "開啟富聯網報導",
+            "uri": "https://ww2.money-link.com.tw/realtimenews/NewsContent.aspx?SN=6298501001&PU=1002#google_vignette"
+          }
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "backgroundColor": "#F7FAFA",
+          "cornerRadius": "8px",
+          "paddingAll": "10px",
+          "margin": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "12  富聯網",
+              "size": "xs",
+              "color": "#087985",
+              "wrap": true,
+              "weight": "bold"
+            },
+            {
+              "type": "text",
+              "text": "工商證券頭條：PCB三雄營收齊創高",
+              "size": "sm",
+              "color": "#203943",
+              "wrap": true,
+              "margin": "xs"
+            },
+            {
+              "type": "text",
+              "text": "點開原文  ↗",
+              "size": "xxs",
+              "color": "#087985",
+              "wrap": true,
+              "margin": "xs"
+            }
+          ],
+          "action": {
+            "type": "uri",
+            "label": "開啟富聯網報導",
+            "uri": "https://ww2.money-link.com.tw/RealtimeNews/NewsContent.aspx?SN=2420446002&PU=0010"
+          }
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "backgroundColor": "#F7FAFA",
+          "cornerRadius": "8px",
+          "paddingAll": "10px",
+          "margin": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "13  Yahoo新聞  ·  轉載",
+              "size": "xs",
+              "color": "#087985",
+              "wrap": true,
+              "weight": "bold"
+            },
+            {
+              "type": "text",
+              "text": "8月營收再創高，年增85%",
+              "size": "sm",
+              "color": "#203943",
+              "wrap": true,
+              "margin": "xs"
+            },
+            {
+              "type": "text",
+              "text": "點開原文  ↗",
+              "size": "xxs",
+              "color": "#087985",
+              "wrap": true,
+              "margin": "xs"
+            }
+          ],
+          "action": {
+            "type": "uri",
+            "label": "開啟Yahoo新聞報導",
+            "uri": "https://tw.news.yahoo.com/%E6%A6%AE%E6%83%A08%E6%9C%88%E7%87%9F%E6%94%B6%E5%86%8D%E5%89%B5%E9%AB%98-%E5%B9%B4%E5%A2%9E85-190349949.html"
+          }
+        },
+        {
+          "type": "text",
+          "text": "依提供的新聞監測清單整理；第6則未附網址。",
+          "size": "xxs",
+          "color": "#71858B",
+          "wrap": true,
+          "margin": "lg"
+        }
+      ]
+    }
+  }
+}
