@@ -82,7 +82,7 @@
   <table>
     <tr><th>要改的地方</th><th>改成什麼</th><th>什麼時候改</th></tr>
     <tr><td><code>LIFF_ID</code> 那一行</td><td>你自己的入口編號</td><td>第 3 步拿到編號之後</td></tr>
-    <tr><td><code>message</code> 裡的內容</td><td>你想發的卡片</td><td>先不改也可以，範例會發一張「讀書會提醒」</td></tr>
+    <tr><td><code>message</code> 裡的內容</td><td>你想發的卡片</td><td>先不改也可以，範例會發一張「LINE Flex 卡片教學」</td></tr>
   </table>
   <div class="codewrap"><button class="copy">複製</button><pre><code>&lt;!doctype html&gt;
 &lt;html lang="zh-Hant"&gt;
@@ -112,21 +112,23 @@
   // 3. 要送出的 Flex 訊息（可以到 Flex Message Simulator 設計後貼進來）
   const message = {
     type: "flex",
-    altText: "讀書會提醒：週四晚上 8 點",   // 聊天列表與通知顯示的文字
+    altText: "LINE Flex 卡片教學",   // 聊天列表與通知顯示的文字
     contents: {
       type: "bubble",
       header: {
         type: "box", layout: "vertical", backgroundColor: "#06c755", paddingAll: "16px",
         contents: [
-          { type: "text", text: "讀書會提醒", color: "#ffffff", size: "xl", weight: "bold" },
-          { type: "text", text: "週四 20:00｜線上", color: "#e8fff0", size: "sm" }
+          { type: "text", text: "LINE Flex 卡片教學", color: "#ffffff", size: "xl", weight: "bold" }
         ]
       },
       body: {
         type: "box", layout: "vertical", spacing: "md",
         contents: [
-          { type: "text", text: "這次讀第 3 章，記得先看完再來喔！", wrap: true },
-          { type: "text", text: "這張卡片是用 LIFF shareTargetPicker 從個人帳號送出的。", wrap: true, size: "xs", color: "#888888" }
+          { type: "text", text: "教學重點", weight: "bold", color: "#06c755" },
+          { type: "text", text: "1. 不用官方帳號，從個人 LINE 免費發卡片", wrap: true, size: "sm" },
+          { type: "text", text: "2. 網頁放在 GitHub Pages", wrap: true, size: "sm" },
+          { type: "text", text: "3. 在 LINE 後台登記入口（LIFF）", wrap: true, size: "sm" },
+          { type: "text", text: "4. 用 Flex Message Simulator 設計卡片", wrap: true, size: "sm" }
         ]
       },
       footer: {
@@ -134,7 +136,7 @@
         contents: [
           // 用 LIFF 分享的卡片，按鈕只能用 uri（開網址）
           { type: "button", style: "primary", color: "#06c755",
-            action: { type: "uri", label: "看教學文章", uri: "https://iantpe.github.io/liff-share-test/guide.html" } }
+            action: { type: "uri", label: "看完整教學", uri: "https://iantpe.github.io/liff-share-test/guide.html" } }
         ]
       }
     }
@@ -211,7 +213,7 @@
     <li>按左上角 <strong>Showcase</strong>，挑一個接近你想要的範本，例如餐廳、收據、行程。</li>
     <li>在左邊點選元件，改文字、顏色、圖片。</li>
     <li>改好後按 <strong>View as JSON</strong>，把整段複製起來。</li>
-    <li>貼到 <code>index.html</code> 裡 <code>contents:</code> 的後面，取代原本那張讀書會卡片，存檔、上傳。</li>
+    <li>貼到 <code>index.html</code> 裡 <code>contents:</code> 的後面，取代原本那張範例卡片，存檔、上傳。</li>
   </ol>
   <p>在 Simulator 裡會看到的零件：</p>
   <table>
@@ -255,9 +257,9 @@
   <p>LINE 在 2025 年公告，建議新做的 LIFF 改成「LINE MINI App」，兩者會慢慢整合。目前用 LINE Login channel 建的 LIFF 仍然正常運作。</p>
 
   <h2 id="next">接下來可以這樣做</h2>
-  <p>建議第一次先<strong>完全不改卡片</strong>，只換掉 <code>LIFF_ID</code>，把範例的讀書會卡片發給一位家人或朋友。確定整條路走得通，再去 Simulator 換成自己的卡片。這樣萬一出問題，比較容易分辨是設定沒做好，還是卡片寫錯了。這是建議的練習順序，不是必要步驟。</p>
+  <p>建議第一次先<strong>完全不改卡片</strong>，只換掉 <code>LIFF_ID</code>，把範例卡片發給一位家人或朋友。確定整條路走得通，再去 Simulator 換成自己的卡片。這樣萬一出問題，比較容易分辨是設定沒做好，還是卡片寫錯了。這是建議的練習順序，不是必要步驟。</p>
 </article>
-<p class="foot">參考：<a href="https://developers.line.biz/en/docs/liff/" target="_blank">LIFF 官方文件</a>・<a href="https://developers.line.biz/en/reference/liff/#share-target-picker" target="_blank">shareTargetPicker API</a>・<a href="https://developers.line.biz/flex-simulator/" target="_blank">Flex Message Simulator</a><br>版本 2026-09-30b</p>
+<p class="foot">參考：<a href="https://developers.line.biz/en/docs/liff/" target="_blank">LIFF 官方文件</a>・<a href="https://developers.line.biz/en/reference/liff/#share-target-picker" target="_blank">shareTargetPicker API</a>・<a href="https://developers.line.biz/flex-simulator/" target="_blank">Flex Message Simulator</a><br>版本 2026-09-30c</p>
 </main>
 <script>
   document.querySelectorAll(".copy").forEach((b) => b.addEventListener("click", async () => {

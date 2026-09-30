@@ -26,21 +26,23 @@
   // 3. 要送出的 Flex 訊息（可以到 Flex Message Simulator 設計後貼進來）
   const message = {
     type: "flex",
-    altText: "讀書會提醒：週四晚上 8 點",   // 聊天列表與通知顯示的文字
+    altText: "LINE Flex 卡片教學",   // 聊天列表與通知顯示的文字
     contents: {
       type: "bubble",
       header: {
         type: "box", layout: "vertical", backgroundColor: "#06c755", paddingAll: "16px",
         contents: [
-          { type: "text", text: "讀書會提醒", color: "#ffffff", size: "xl", weight: "bold" },
-          { type: "text", text: "週四 20:00｜線上", color: "#e8fff0", size: "sm" }
+          { type: "text", text: "LINE Flex 卡片教學", color: "#ffffff", size: "xl", weight: "bold" }
         ]
       },
       body: {
         type: "box", layout: "vertical", spacing: "md",
         contents: [
-          { type: "text", text: "這次讀第 3 章，記得先看完再來喔！", wrap: true },
-          { type: "text", text: "這張卡片是用 LIFF shareTargetPicker 從個人帳號送出的。", wrap: true, size: "xs", color: "#888888" }
+          { type: "text", text: "教學重點", weight: "bold", color: "#06c755" },
+          { type: "text", text: "1. 不用官方帳號，從個人 LINE 免費發卡片", wrap: true, size: "sm" },
+          { type: "text", text: "2. 網頁放在 GitHub Pages", wrap: true, size: "sm" },
+          { type: "text", text: "3. 在 LINE 後台登記入口（LIFF）", wrap: true, size: "sm" },
+          { type: "text", text: "4. 用 Flex Message Simulator 設計卡片", wrap: true, size: "sm" }
         ]
       },
       footer: {
@@ -48,7 +50,7 @@
         contents: [
           // 用 LIFF 分享的卡片，按鈕只能用 uri（開網址）
           { type: "button", style: "primary", color: "#06c755",
-            action: { type: "uri", label: "看教學文章", uri: "https://iantpe.github.io/liff-share-test/guide.html" } }
+            action: { type: "uri", label: "看完整教學", uri: "https://iantpe.github.io/liff-share-test/guide.html" } }
         ]
       }
     }
