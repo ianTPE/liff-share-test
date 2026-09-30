@@ -82,8 +82,9 @@
   <ol>
     <li>登入 GitHub，按右上角 <strong>+ → New repository</strong>。repository 可以想成一個專案資料夾。</li>
     <li>名字取英文，例如 <code>liff-card</code>；設成 <strong>Public</strong>；勾 <strong>Add a README file</strong>，然後建立。</li>
-    <li>你的網頁網址會是：<code>https://你的 GitHub 帳號.github.io/liff-card/</code>（最後的 <code>liff-card</code> 換成你取的名字）。先把它記下來，下一步要用。</li>
+    <li>你的網頁網址會是：<code>https://你的 GitHub 帳號.github.io/liff-card/</code>（最後的 <code>liff-card</code> 換成你取的名字）。</li>
   </ol>
+  <div class="box tip"><strong>✅ 這一步拿到的東西：網頁網址</strong>先貼在記事本裡，下一步登記入口時要填。</div>
 
   <h2 id="liff"><span class="n">3</span>回 LINE 後台登記入口，拿到編號</h2>
   <ol>
@@ -98,11 +99,12 @@
       </table>
     </li>
     <li>建好後回到 LIFF 列表，把 <strong>Share target picker</strong> 切成 On。這個開關就是允許網頁叫出「要傳給誰」的畫面。<strong>大家最常忘的就是這一步</strong>。</li>
-    <li>把列表上的 <strong>LIFF ID</strong> 記下來，長得像 <code>1234567890-AbCdEfGh</code>。這就是入口編號。</li>
+    <li>在 LIFF 列表上找到 <strong>LIFF ID</strong> 這一欄，把它複製下來。它長得像 <code>1234567890-AbCdEfGh</code>，就是這個入口的編號。</li>
   </ol>
+  <div class="box tip"><strong>✅ 這一步拿到的東西：LIFF ID</strong>先貼在記事本裡。下一步請 AI 寫網頁時，要把它填進 prompt。</div>
 
   <h2 id="ai"><span class="n">4</span>請 AI 幫你寫網頁</h2>
-  <p>按下面的「複製」，把整段話貼給你習慣的 AI。貼之前只要改一個地方：把「我的 LIFF ID」後面換成你第 3 步拿到的編號。</p>
+  <p>按下面的「複製」，把整段話貼給你習慣的 AI。貼之前只要改一個地方：把「我的 LIFF ID」後面括號裡的說明，換成你在<a href="#liff">第 3 步</a>複製的 LIFF ID。</p>
   <p>卡片的部分已經先填好一張範例，第一次可以不改，直接用。想換成自己的卡片，就把「我想要的卡片」那段，用你平常說話的方式改掉。</p>
   <div class="codewrap"><button class="copy">複製</button><pre class="wrap"><code>請幫我寫一個網頁檔案 index.html，用來從我的個人 LINE 帳號發送 Flex 卡片。我不會寫程式，請直接給我完整、可以直接使用的檔案內容。
 
@@ -198,7 +200,7 @@
   <h2 id="next">接下來可以這樣做</h2>
   <p>建議第一次<strong>先不改卡片</strong>，只把 LIFF ID 填進去，讓 AI 做出範例卡片，發給一位家人或朋友。確定整條路走得通，再請 AI 換成你自己的卡片。這樣萬一出問題，比較容易分辨是設定沒做好，還是卡片內容有問題。這是建議的練習順序，不是必要步驟。</p>
 </article>
-<p class="foot">參考：<a href="https://developers.line.biz/en/docs/liff/" target="_blank">LIFF 官方文件</a>・<a href="https://developers.line.biz/en/reference/liff/#share-target-picker" target="_blank">shareTargetPicker API</a>・<a href="https://developers.line.biz/flex-simulator/" target="_blank">Flex Message Simulator</a><br>版本 2026-09-30d</p>
+<p class="foot">參考：<a href="https://developers.line.biz/en/docs/liff/" target="_blank">LIFF 官方文件</a>・<a href="https://developers.line.biz/en/reference/liff/#share-target-picker" target="_blank">shareTargetPicker API</a>・<a href="https://developers.line.biz/flex-simulator/" target="_blank">Flex Message Simulator</a><br>版本 2026-09-30e</p>
 </main>
 <script>
   document.querySelectorAll(".copy").forEach((b) => b.addEventListener("click", async () => {
