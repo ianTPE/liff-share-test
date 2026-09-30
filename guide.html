@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>從個人 LINE 發 Flex 卡片</title>
 <meta property="og:title" content="自己做一個網頁，從個人 LINE 發出漂亮的卡片">
-<meta property="og:description" content="不用官方帳號、不花錢、不用會寫程式：請 AI 寫網頁，用 GitHub Pages 和 LINE 小程式，把有顏色、有按鈕的卡片傳給朋友。">
+<meta property="og:description" content="不用官方帳號、不花錢、不用會寫程式：請 AI 做好網頁、放上 GitHub Pages，搭配 LINE 小程式，把有顏色、有按鈕的卡片傳給朋友。">
 <style>
   :root { --green: #06c755; --text: #1f1f1f; --muted: #6b6b6b; --bg: #fafaf7; --card: #ffffff; --line: #e5e5e0; --code: #f3f3f0; --tip: #eefbf3; --warn: #fff6e5; }
   @media (prefers-color-scheme: dark) {
@@ -50,7 +50,7 @@
 <main>
 <article>
   <h1>自己做一個網頁，從個人 LINE 發出漂亮的卡片</h1>
-  <p class="lead">不用官方帳號、不花錢、不用會寫程式。做完之後，你在 LINE 裡點一下、選好朋友，對方聊天室就會出現一張有顏色、有按鈕的卡片。</p>
+  <p class="lead">不用官方帳號、不花錢、不用會寫程式，交給 AI 做。做完之後，你在 LINE 裡點一下、選好朋友，對方聊天室就會出現一張有顏色、有按鈕的卡片。</p>
 
   <h2 id="start">先看看我們要做到什麼</h2>
   <p>平常在 LINE 裡，我們只能打字、傳照片、傳貼圖。但你可能收過商家或官方帳號傳來的那種卡片：有標題、有底色、下面還有「立即報名」之類的按鈕。那種卡片，一般人的 LINE 並沒有地方可以做。</p>
@@ -60,12 +60,12 @@
   <h2 id="parts">整件事由三樣東西組成</h2>
   <table>
     <tr><th>東西</th><th>它是什麼</th><th>從哪裡來</th></tr>
-    <tr><td>網頁</td><td>一個叫 <code>index.html</code> 的檔案，上面有「送出」按鈕，也寫好了卡片長什麼樣子</td><td>請 AI 幫你寫，放在 GitHub Pages（免費幫你把網頁放上網路）</td></tr>
+    <tr><td>網頁</td><td>一個叫 <code>index.html</code> 的檔案，上面有「送出」按鈕，也寫好了卡片長什麼樣子</td><td>AI 幫你寫好，並放上 GitHub Pages（免費把網頁放上網路）</td></tr>
     <tr><td>LINE 小程式入口</td><td>一個專屬網址，在 LINE 裡點開它，網頁才能叫出 LINE 的「要傳給誰」畫面。LINE 把這種在 LINE 裡打開的網頁叫做 <strong>LIFF</strong></td><td>在 LINE Developers（LINE 給開發者用的後台）登記</td></tr>
     <tr><td>卡片</td><td>標題、顏色、內容、按鈕</td><td>你用平常說話的方式描述，AI 幫你寫進網頁</td></tr>
   </table>
-  <p>要準備的只有：一個 LINE 帳號、一個 GitHub 帳號、手機上的 LINE，以及任何一個你習慣的 AI（ChatGPT、Claude、Gemini 都可以）。</p>
-  <p>步驟的順序是：<strong>在 LINE 後台建好應用程式 → 在 GitHub 開好專案、知道網頁網址 → 回 LINE 後台登記入口、拿到編號 → 請 AI 寫網頁 → 放上網路 → 在 LINE 裡試發</strong>。因為請 AI 寫網頁時要給它入口編號，所以編號要先拿到。</p>
+  <p>要準備的只有：一個 LINE 帳號、一個 GitHub 帳號、手機上的 LINE，以及一個能幫你操作 GitHub 的 AI 工具（例如 Claude Code、Codex）。</p>
+  <p>步驟的順序是：<strong>在 LINE 後台建好應用程式 → 登記入口、拿到編號 → 請 AI 做好網頁並放上網路 → 在 LINE 裡試發</strong>。因為 AI 做網頁時要用到入口編號，所以編號要先拿到。</p>
 
   <h2 id="channel"><span class="n">1</span>在 LINE 後台開一個「應用程式」</h2>
   <p>LINE 的所有開發功能都在 LINE Developers 後台。我們要先在裡面登記一個應用程式，LINE 稱它為 <strong>channel</strong>，之後的入口就掛在它底下。</p>
@@ -75,18 +75,12 @@
     <li>在 Provider 裡按 <strong>Create a new channel</strong>，類型選 <strong>LINE Login</strong>。</li>
     <li>填名稱、說明，地區選 Taiwan，App types 勾 <strong>Web app</strong>，同意條款後建立。</li>
   </ol>
-  <div class="box warn"><strong>⚠️ 類型要選 LINE Login</strong>清單裡還有一個 Messaging API，那是官方帳號機器人用的，它底下不能掛我們要的 LINE 小程式入口。選錯了，第 3 步會找不到 LIFF 分頁。</div>
+  <div class="box warn"><strong>⚠️ 類型要選 LINE Login</strong>清單裡還有一個 Messaging API，那是官方帳號機器人用的，它底下不能掛我們要的 LINE 小程式入口。選錯了，第 2 步會找不到 LIFF 分頁。</div>
 
-  <h2 id="repo"><span class="n">2</span>在 GitHub 開一個專案，先知道網頁網址</h2>
-  <p>網頁要有一個網址，LINE 才找得到它。GitHub Pages 可以免費把你放在 GitHub 上的檔案變成網址。</p>
-  <ol>
-    <li>登入 GitHub，按右上角 <strong>+ → New repository</strong>。repository 可以想成一個專案資料夾。</li>
-    <li>名字取英文，例如 <code>liff-card</code>；設成 <strong>Public</strong>；勾 <strong>Add a README file</strong>，然後建立。</li>
-    <li>你的網頁網址會是：<code>https://你的 GitHub 帳號.github.io/liff-card/</code>（最後的 <code>liff-card</code> 換成你取的名字）。</li>
-  </ol>
-  <div class="box tip"><strong>✅ 這一步拿到的東西：網頁網址</strong>先貼在記事本裡，下一步登記入口時要填。</div>
-
-  <h2 id="liff"><span class="n">3</span>回 LINE 後台登記入口，拿到編號</h2>
+  <h2 id="liff"><span class="n">2</span>登記 LINE 小程式入口，拿到編號</h2>
+  <p>入口要知道它連到哪個網頁。網頁雖然還沒做，但網址可以先決定，因為 GitHub Pages 的網址是固定格式：</p>
+  <p><code>https://你的 GitHub 帳號.github.io/liff-card/</code></p>
+  <p>把「你的 GitHub 帳號」換成你自己的帳號名稱。最後的 <code>liff-card</code> 是等一下 AI 會幫你建立的專案名稱，照用就好。</p>
   <ol>
     <li>回到第 1 步建的 channel，切到 <strong>LIFF</strong> 分頁，按 <strong>Add</strong>。</li>
     <li>照下表填：
@@ -94,21 +88,23 @@
         <tr><th>欄位</th><th>填什麼</th><th>說明</th></tr>
         <tr><td>LIFF app name</td><td>隨意</td><td>給自己看的名字</td></tr>
         <tr><td>Size</td><td>Full</td><td>網頁在 LINE 裡以全螢幕打開</td></tr>
-        <tr><td>Endpoint URL</td><td>第 2 步記下的網址</td><td>告訴 LINE 入口要連到哪個網頁</td></tr>
+        <tr><td>Endpoint URL</td><td>上面那個網址</td><td>告訴 LINE 入口要連到哪個網頁</td></tr>
         <tr><td>Scopes</td><td>勾 <code>profile</code></td><td>允許網頁知道是誰在用</td></tr>
       </table>
     </li>
     <li>建好後回到 LIFF 列表，把 <strong>Share target picker</strong> 切成 On。這個開關就是允許網頁叫出「要傳給誰」的畫面。<strong>大家最常忘的就是這一步</strong>。</li>
     <li>在 LIFF 列表上找到 <strong>LIFF ID</strong> 這一欄，把它複製下來。它長得像 <code>1234567890-AbCdEfGh</code>，就是這個入口的編號。</li>
   </ol>
-  <div class="box tip"><strong>✅ 這一步拿到的東西：LIFF ID</strong>先貼在記事本裡。下一步請 AI 寫網頁時，要把它填進 prompt。</div>
+  <div class="box tip"><strong>✅ 這一步拿到的東西：LIFF ID 和網頁網址</strong>先貼在記事本裡。下一步請 AI 做網頁時，兩個都要填進 prompt。</div>
 
-  <h2 id="ai"><span class="n">4</span>請 AI 幫你寫網頁</h2>
-  <p>按下面的「複製」，把整段話貼給你習慣的 AI。貼之前只要改一個地方：把「我的 LIFF ID」後面括號裡的說明，換成你在<a href="#liff">第 3 步</a>複製的 LIFF ID。</p>
+  <h2 id="ai"><span class="n">3</span>請 AI 做好網頁，並放上網路</h2>
+  <p>這一步整個交給 AI：寫網頁、在你的 GitHub 建立專案、開啟 GitHub Pages，一次完成。要用<strong>能幫你操作 GitHub 的 AI</strong>，例如 Claude Code、Codex 這類可以在電腦上執行動作的 AI 工具。第一次使用時，AI 會請你登入 GitHub、同意它存取，照畫面指示做就好。</p>
+  <p>按下面的「複製」，把整段話貼給 AI。貼之前改兩個地方：把「我的 LIFF ID」和「我的 GitHub 帳號」後面括號裡的說明，換成<a href="#liff">第 2 步</a>記下的內容。</p>
   <p>卡片的部分已經先填好一張範例，第一次可以不改，直接用。想換成自己的卡片，就把「我想要的卡片」那段，用你平常說話的方式改掉。</p>
-  <div class="codewrap"><button class="copy">複製</button><pre class="wrap"><code>請幫我寫一個網頁檔案 index.html，用來從我的個人 LINE 帳號發送 Flex 卡片。我不會寫程式，請直接給我完整、可以直接使用的檔案內容。
+  <div class="codewrap"><button class="copy">複製</button><pre class="wrap"><code>請幫我做一個網頁，用來從我的個人 LINE 帳號發送 Flex 卡片，並幫我放上 GitHub Pages。我不會寫程式，請你直接完成所有步驟。
 
 【我的 LIFF ID】：（貼上你的 LIFF ID，例如 1234567890-AbCdEfGh）
+【我的 GitHub 帳號】：（貼上你的 GitHub 帳號名稱）
 
 【我想要的卡片】
 - 標題：LINE Flex 卡片教學
@@ -117,7 +113,7 @@
   1. 不用官方帳號，從個人 LINE 免費發卡片
   2. 網頁放在 GitHub Pages
   3. 在 LINE 後台登記入口（LIFF）
-  4. 請 AI 幫你寫好網頁
+  4. 請 AI 做好網頁並放上網路
 - 按鈕：「看完整教學」，按下去打開 https://iantpe.github.io/liff-share-test/guide.html
 - 對方收到通知時顯示的文字：LINE Flex 卡片教學
 
@@ -135,18 +131,18 @@
 - 文字多的地方要設定 wrap: true，才會自動換行。
 - 圖片網址必須是 https。
 
+【請幫我放上網路】
+1. 在我的 GitHub 帳號建立一個公開（Public）的 repository，名稱叫 liff-card。如果已經有了，就更新裡面的 index.html。
+2. 把網頁存成 index.html，放在 repository 的最上層。
+3. 開啟 GitHub Pages，來源選 main 分支的根目錄。
+4. 等網站上線後，告訴我網址，並確認它是 https://我的GitHub帳號.github.io/liff-card/。如果不一樣，請提醒我要到 LINE 後台把 LIFF 的 Endpoint URL 改成新網址。
+5. 需要我登入 GitHub 或按同意時，請一步一步告訴我要按哪裡。
+
 最後請用不懂程式的人也看得懂的話告訴我：以後想換卡片內容時，要怎麼跟你說。</code></pre></div>
-  <p>AI 會回給你一大段以 <code>&lt;!doctype html&gt;</code> 開頭的內容，這就是網頁檔案。它的回答裡通常有一個「複製」按鈕，把那一整段複製起來，下一步要用。</p>
+  <p>AI 做完會告訴你網址。用瀏覽器打開，看得到「選擇好友並送出」按鈕就成功了。用電腦打開時，頁面可能會要你登入或說無法分享，這是正常的，要到手機 LINE 裡才能用。</p>
+  <p>如果你的 AI 只能聊天、沒辦法替你操作 GitHub，就直接問它：「你沒辦法幫我上傳的話，請一步一步教我怎麼自己放上 GitHub Pages。」</p>
 
-  <h2 id="pages"><span class="n">5</span>把網頁放上網路</h2>
-  <ol>
-    <li>回到第 2 步的 GitHub 專案，按 <strong>Add file → Create new file</strong>。</li>
-    <li>檔名填 <code>index.html</code>，下面的大框框貼上 AI 給你的內容，按 <strong>Commit changes</strong> 存檔。</li>
-    <li>進 <strong>Settings → Pages</strong>，Source 選 <strong>Deploy from a branch</strong>，Branch 選 <code>main</code>、<code>/ (root)</code>，按 Save。</li>
-    <li>等一兩分鐘，同一頁上方會出現你的網址。用瀏覽器打開，看得到「選擇好友並送出」按鈕就成功了。用電腦打開時，頁面可能會要你登入或說無法分享，這是正常的，要到手機 LINE 裡才能用。</li>
-  </ol>
-
-  <h2 id="try"><span class="n">6</span>在手機 LINE 裡試發一次</h2>
+  <h2 id="try"><span class="n">4</span>在手機 LINE 裡試發一次</h2>
   <p>入口的網址是 <code>https://liff.line.me/</code> 後面接你的 LIFF ID。要從 LINE 裡點開才行，最簡單的做法是把這個網址傳到任何一個聊天室，再點它。</p>
   <ol>
     <li>點開後，看到頁面上的綠色按鈕「選擇好友並送出」。</li>
@@ -155,18 +151,17 @@
   </ol>
   <p>想先看看成品？可以在手機 LINE 裡點這個示範：<a href="https://liff.line.me/2011736396-qcyiLRJ3/demo.html">liff.line.me/2011736396-qcyiLRJ3/demo.html</a>。如果打不開，原因寫在下面「別人打不開我的入口」那一題。</p>
 
-  <h2 id="design"><span class="n">7</span>換成自己的卡片</h2>
-  <p>之後想發別的卡片，不用從頭來，直接跟同一個 AI 說就好，例如：</p>
+  <h2 id="design"><span class="n">5</span>換成自己的卡片</h2>
+  <p>之後想發別的卡片，不用從頭來，直接跟同一個 AI 說，它會改好並更新網路上的網頁，例如：</p>
   <ul>
     <li>「把卡片標題改成『週末聚餐』，顏色改成橘色。」</li>
     <li>「內容改成時間、地點兩行，按鈕改成『看地圖』，打開這個 Google 地圖網址：……」</li>
     <li>「在標題上面加一張圖片，圖片網址是：……」</li>
   </ul>
-  <p>拿到新的內容後，到 GitHub 點開 <code>index.html</code>，按右上角的鉛筆圖示編輯，全部刪掉、貼上新內容，按 Commit changes。</p>
   <p>不知道卡片可以長什麼樣子？LINE 有一個線上工具叫 <a href="https://developers.line.biz/flex-simulator/" target="_blank">Flex Message Simulator</a>，左上角 <strong>Showcase</strong> 有很多現成的卡片樣式（餐廳、收據、行程…）。看到喜歡的，可以截圖給 AI，說「幫我做成像這樣的卡片」。</p>
   <div class="box tip"><strong>💡 想讓卡片動起來</strong>卡片上的文字不能動，但圖片可以。準備一張會動的 PNG（APNG），跟 AI 說「圖片要播放動畫」即可。</div>
 
-  <h2 id="faq"><span class="n">8</span>會遇到的狀況</h2>
+  <h2 id="faq"><span class="n">6</span>會遇到的狀況</h2>
   <h3>按鈕為什麼只能開網址？</h3>
   <p>卡片是用你個人帳號送出的，對方按按鈕時，LINE 沒有一個「機器人」可以接收。所以凡是要傳資料回去給機器人的按鈕，都要改用官方帳號發卡片才行。能直接打開網頁的按鈕則沒有問題。</p>
   <table>
@@ -181,8 +176,8 @@
   <h3>其他常見狀況</h3>
   <table>
     <tr><th>你看到的</th><th>為什麼</th><th>怎麼辦</th></tr>
-    <tr><td>頁面說「無法分享」</td><td>Share target picker 沒開，或不是從 LINE 裡點開</td><td>檢查第 3 步的開關；確認是從 <code>liff.line.me/…</code> 網址點開</td></tr>
-    <tr><td>頁面說 LIFF 初始化失敗</td><td>網頁裡的 LIFF ID 填錯，或第 3 步填的網址和網頁實際網址不一樣</td><td>對照第 3 步的 LIFF ID 和 Endpoint URL，兩個都要一模一樣</td></tr>
+    <tr><td>頁面說「無法分享」</td><td>Share target picker 沒開，或不是從 LINE 裡點開</td><td>檢查第 2 步的開關；確認是從 <code>liff.line.me/…</code> 網址點開</td></tr>
+    <tr><td>頁面說 LIFF 初始化失敗</td><td>網頁裡的 LIFF ID 填錯，或第 2 步填的網址和 AI 建好的網址不一樣</td><td>對照第 2 步的 LIFF ID 和 Endpoint URL；網址不一樣時，把 Endpoint URL 改成 AI 給的網址</td></tr>
     <tr><td>別人打不開我的入口</td><td>剛建好的 channel 處於「開發中」（Developing），只有你自己和你加的測試人員能打開</td><td>在 channel 頁面上方改成 Published，或在 Roles 分頁把對方加成測試人員。<strong>收卡片的人不受影響</strong>，卡片誰都看得到</td></tr>
     <tr><td>按送出後跳出錯誤</td><td>卡片內容有地方不符合 LINE 的格式</td><td>把畫面上的錯誤訊息整段貼給 AI，請它修正</td></tr>
     <tr><td>改了網頁，LINE 裡還是舊的</td><td>LINE 會暫存網頁，GitHub Pages 大約 10 分鐘才更新</td><td>在網址後面加 <code>?v=2</code>、<code>?v=3</code>，每次換個數字</td></tr>
@@ -198,9 +193,9 @@
   <p>LINE 在 2025 年公告，建議新做的 LIFF 改成「LINE MINI App」，兩者會慢慢整合。目前用 LINE Login channel 建的 LIFF 仍然正常運作。</p>
 
   <h2 id="next">接下來可以這樣做</h2>
-  <p>建議第一次<strong>先不改卡片</strong>，只把 LIFF ID 填進去，讓 AI 做出範例卡片，發給一位家人或朋友。確定整條路走得通，再請 AI 換成你自己的卡片。這樣萬一出問題，比較容易分辨是設定沒做好，還是卡片內容有問題。這是建議的練習順序，不是必要步驟。</p>
+  <p>建議第一次<strong>先不改卡片</strong>，只把 LIFF ID 和 GitHub 帳號填進去，讓 AI 做出範例卡片，發給一位家人或朋友。確定整條路走得通，再請 AI 換成你自己的卡片。這樣萬一出問題，比較容易分辨是設定沒做好，還是卡片內容有問題。這是建議的練習順序，不是必要步驟。</p>
 </article>
-<p class="foot">參考：<a href="https://developers.line.biz/en/docs/liff/" target="_blank">LIFF 官方文件</a>・<a href="https://developers.line.biz/en/reference/liff/#share-target-picker" target="_blank">shareTargetPicker API</a>・<a href="https://developers.line.biz/flex-simulator/" target="_blank">Flex Message Simulator</a><br>版本 2026-09-30e</p>
+<p class="foot">參考：<a href="https://developers.line.biz/en/docs/liff/" target="_blank">LIFF 官方文件</a>・<a href="https://developers.line.biz/en/reference/liff/#share-target-picker" target="_blank">shareTargetPicker API</a>・<a href="https://developers.line.biz/flex-simulator/" target="_blank">Flex Message Simulator</a><br>版本 2026-09-30f</p>
 </main>
 <script>
   document.querySelectorAll(".copy").forEach((b) => b.addEventListener("click", async () => {
