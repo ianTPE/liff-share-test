@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>用 GitHub Pages 發 LINE Flex 卡片</title>
+<meta property="og:title" content="用 GitHub Pages + LIFF 從個人帳號發 LINE Flex 卡片">
+<meta property="og:description" content="不用官方帳號、不花推播費：用 shareTargetPicker 把漂亮的 Flex 卡片直接送進好友聊天室。">
+<style>
+  :root { --green: #06c755; --text: #1f1f1f; --muted: #6b6b6b; --bg: #fafaf7; --card: #ffffff; --line: #e5e5e0; --code: #f3f3f0; --tip: #eefbf3; --warn: #fff6e5; }
+  @media (prefers-color-scheme: dark) {
+    :root { --text: #f0f0f0; --muted: #a0a0a0; --bg: #16161a; --card: #22222a; --line: #34343c; --code: #2c2c34; --tip: #1c2e24; --warn: #33291a; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 16px 60px; font-family: system-ui, -apple-system, "Noto Sans TC", sans-serif;
+         background: var(--bg); color: var(--text); line-height: 1.8; }
+  main { max-width: 720px; margin: 0 auto; }
+  article { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; }
+  h1 { font-size: 1.45rem; line-height: 1.4; margin: .2em 0 .3em; }
+  .lead { color: var(--muted); margin-top: 0; }
+  h2 { font-size: 1.15rem; margin: 1.8em 0 .5em; padding-top: .6em; border-top: 1px solid var(--line); }
+  h2 .n { display: inline-block; min-width: 1.7em; height: 1.7em; line-height: 1.7em; text-align: center; margin-right: .4em;
+          color: #fff; background: var(--green); border-radius: 50%; font-size: .85em; }
+  h3 { font-size: 1rem; margin: 1.3em 0 .3em; }
+  p, li { margin: .5em 0; }
+  ol, ul { padding-left: 1.4em; }
+  table { border-collapse: collapse; width: 100%; font-size: .92rem; margin: 1em 0; display: block; overflow-x: auto; }
+  th, td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: var(--code); white-space: nowrap; }
+  td:first-child { white-space: nowrap; }
+  code { background: var(--code); padding: 0 5px; border-radius: 4px; font-size: .9em; word-break: break-all; }
+  .codewrap { position: relative; margin: 1em 0; }
+  pre { background: var(--code); padding: 12px; border-radius: 8px; overflow-x: auto; font-size: .82rem; line-height: 1.55; margin: 0; }
+  pre code { background: none; padding: 0; word-break: normal; }
+  .copy { position: absolute; top: 8px; right: 8px; padding: 4px 10px; font: inherit; font-size: .8rem; color: #fff;
+          background: var(--green); border: 0; border-radius: 6px; cursor: pointer; }
+  .box { border-radius: 10px; padding: 10px 14px; margin: 1em 0; }
+  .tip { background: var(--tip); }
+  .warn { background: var(--warn); }
+  .box strong:first-child { display: block; }
+  a { color: #1a73e8; }
+  .toc { background: var(--code); border-radius: 10px; padding: 10px 14px 10px 30px; margin: 1em 0; }
+  .toc li { margin: .15em 0; }
+  .foot { color: var(--muted); font-size: .85rem; text-align: center; margin-top: 18px; }
+</style>
+</head>
+<body>
+<main>
+<article>
+  <h1>用 GitHub Pages + LIFF，從個人帳號發 LINE Flex 卡片</h1>
+  <p class="lead">不用官方帳號、不花推播費。做一個網頁，在 LINE 裡打開、按一下、選好友，對方聊天室就會出現一張排版漂亮、可以點按鈕的卡片。</p>
+
+  <ol class="toc">
+    <li><a href="#what">原理：shareTargetPicker 是什麼</a></li>
+    <li><a href="#channel">建立 LINE Login channel</a></li>
+    <li><a href="#code">寫網頁</a></li>
+    <li><a href="#pages">放上 GitHub Pages</a></li>
+    <li><a href="#liff">新增 LIFF 小程式</a></li>
+    <li><a href="#try">在 LINE 裡打開、發送</a></li>
+    <li><a href="#design">設計自己的卡片</a></li>
+    <li><a href="#faq">限制與常見問題</a></li>
+  </ol>
+
+  <h2 id="what"><span class="n">1</span>原理：shareTargetPicker 是什麼</h2>
+  <p>LINE App 本身沒辦法讓個人帳號發 Flex 卡片，一般人只能發文字、圖片、貼圖。但 LINE 的網頁小程式 <strong>LIFF</strong> 有一個功能 <code>liff.shareTargetPicker()</code>：呼叫它會跳出 LINE 內建的「選擇好友／群組」畫面，選好按送出，卡片就<strong>以你本人的名義</strong>送出。</p>
+  <table>
+    <tr><th></th><th>官方帳號推播</th><th>LIFF shareTargetPicker</th></tr>
+    <tr><td>誰發出</td><td>官方帳號</td><td>你自己的個人帳號</td></tr>
+    <tr><td>費用</td><td>計入每月推播則數</td><td>免費（算一般聊天）</td></tr>
+    <tr><td>能不能全自動</td><td>可以</td><td>不行，每次要本人選對象、按送出</td></tr>
+    <tr><td>卡片按鈕</td><td>各種動作都能用</td><td>只能「開網址」（uri）</td></tr>
+  </table>
+  <p>需要準備：一個 LINE 帳號（登入 LINE Developers 用）、一個 GitHub 帳號、手機上的 LINE。</p>
+  <p>整個流程有一個先後問題：LIFF 要填網頁網址，網頁程式又要填 LIFF ID。所以順序是 <strong>建 channel → 寫網頁並上線 → 建 LIFF 拿到 ID → 把 ID 填回網頁</strong>。</p>
+
+  <h2 id="channel"><span class="n">2</span>建立 LINE Login channel</h2>
+  <ol>
+    <li>打開 <a href="https://developers.line.biz/console/" target="_blank">LINE Developers Console</a>，用 LINE 帳號登入。</li>
+    <li>建立一個 <strong>Provider</strong>（名稱隨意，例如自己的名字或團隊名）。</li>
+    <li>在 Provider 底下按 <strong>Create a new channel</strong>，類型選 <strong>LINE Login</strong>。</li>
+    <li>填入 channel 名稱、說明、地區（Taiwan），App types 勾 <strong>Web app</strong>，同意條款後建立。</li>
+  </ol>
+  <div class="box warn"><strong>⚠️ 要選 LINE Login，不是 Messaging API</strong>Messaging API channel（官方帳號的 Bot）不能掛 LIFF。</div>
+
+  <h2 id="code"><span class="n">3</span>寫網頁</h2>
+  <p>整個網頁就一個 <code>index.html</code>。核心只有三件事：載入 LIFF SDK、<code>liff.init()</code>、按鈕按下時呼叫 <code>liff.shareTargetPicker([訊息])</code>。</p>
+  <p>下面是完整可用的範例，直接複製，存成 <code>index.html</code>。<code>LIFF_ID</code> 先留著，第 5 步拿到自己的 ID 再換掉。</p>
+  <div class="codewrap"><button class="copy">複製</button><pre><code>&lt;!doctype html&gt;
+&lt;html lang="zh-Hant"&gt;
+&lt;head&gt;
+&lt;meta charset="utf-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+&lt;title&gt;分享 Flex 卡片&lt;/title&gt;
+&lt;style&gt;
+  body { margin: 0; padding: 24px 16px; font-family: system-ui, sans-serif; text-align: center; }
+  button { width: 100%; max-width: 360px; padding: 14px; font-size: 1rem; font-weight: 700;
+           color: #fff; background: #06c755; border: 0; border-radius: 12px; }
+  button:disabled { opacity: .5; }
+  #status { margin-top: 14px; color: #666; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;分享 Flex 卡片&lt;/h1&gt;
+  &lt;button id="share" disabled&gt;選擇好友並送出&lt;/button&gt;
+  &lt;p id="status"&gt;載入中…&lt;/p&gt;
+
+&lt;!-- 1. 載入 LIFF SDK --&gt;
+&lt;script src="https://static.line-scdn.net/liff/edge/2/sdk.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  // 2. 換成你自己的 LIFF ID
+  const LIFF_ID = "2011736396-qcyiLRJ3";
+
+  // 3. 要送出的 Flex 訊息（可以到 Flex Message Simulator 設計後貼進來）
+  const message = {
+    type: "flex",
+    altText: "讀書會提醒：週四晚上 8 點",   // 聊天列表與通知顯示的文字
+    contents: {
+      type: "bubble",
+      header: {
+        type: "box", layout: "vertical", backgroundColor: "#06c755", paddingAll: "16px",
+        contents: [
+          { type: "text", text: "讀書會提醒", color: "#ffffff", size: "xl", weight: "bold" },
+          { type: "text", text: "週四 20:00｜線上", color: "#e8fff0", size: "sm" }
+        ]
+      },
+      body: {
+        type: "box", layout: "vertical", spacing: "md",
+        contents: [
+          { type: "text", text: "這次讀第 3 章，記得先看完再來喔！", wrap: true },
+          { type: "text", text: "這張卡片是用 LIFF shareTargetPicker 從個人帳號送出的。", wrap: true, size: "xs", color: "#888888" }
+        ]
+      },
+      footer: {
+        type: "box", layout: "vertical",
+        contents: [
+          // 用 LIFF 分享的卡片，按鈕只能用 uri（開網址）
+          { type: "button", style: "primary", color: "#06c755",
+            action: { type: "uri", label: "看教學文章", uri: "https://iantpe.github.io/liff-share-test/guide.html" } }
+        ]
+      }
+    }
+  };
+
+  const $ = (id) =&gt; document.getElementById(id);
+
+  async function main() {
+    // 4. 初始化 LIFF
+    await liff.init({ liffId: LIFF_ID });
+    if (!liff.isLoggedIn()) { liff.login(); return; }           // 在一般瀏覽器打開時先登入
+    if (!liff.isApiAvailable("shareTargetPicker")) {
+      $("status").textContent = "無法分享：請在 LINE 裡打開，並在 LIFF 設定開啟 Share target picker。";
+      return;
+    }
+    $("share").disabled = false;
+    $("status").textContent = "";
+
+    // 5. 按下按鈕 → 跳出 LINE 的選好友畫面 → 送出
+    $("share").onclick = async () =&gt; {
+      try {
+        const res = await liff.shareTargetPicker([message]);   // 一次最多 5 則
+        $("status").textContent = res ? "已送出 ✅" : "已取消";
+      } catch (e) {
+        $("status").textContent = "失敗：" + e.message;           // 多半是 Flex JSON 格式有誤
+      }
+    };
+  }
+  main().catch((e) =&gt; { $("status").textContent = "LIFF 初始化失敗：" + e.message; });
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>
+  <p>幾個重點：</p>
+  <ul>
+    <li><code>altText</code> 必填，聊天列表和手機通知只會顯示這段文字。</li>
+    <li><code>shareTargetPicker</code> 的參數是<strong>陣列</strong>，一次最多 5 則訊息（例如一張卡片加一則文字）。</li>
+    <li>回傳值有東西代表送出成功；使用者按取消時沒有回傳值。</li>
+    <li>在電腦瀏覽器打開時，<code>liff.login()</code> 會先導到 LINE 登入頁；分享前可能還要用 email 和密碼登入一次。最順的還是在手機 LINE 裡打開。</li>
+  </ul>
+
+  <h2 id="pages"><span class="n">4</span>放上 GitHub Pages</h2>
+  <ol>
+    <li>在 GitHub 建一個新的 <strong>Public</strong> repository，例如 <code>liff-card</code>。</li>
+    <li>把 <code>index.html</code> 上傳（網頁上按 <strong>Add file → Upload files</strong> 就可以，不一定要用 git）。</li>
+    <li>進 repo 的 <strong>Settings → Pages</strong>，Source 選 <strong>Deploy from a branch</strong>，Branch 選 <code>main</code>、資料夾 <code>/ (root)</code>，按 Save。</li>
+    <li>等一兩分鐘，頁面上方會出現網址：<code>https://你的帳號.github.io/liff-card/</code>。用瀏覽器打開確認看得到頁面。</li>
+  </ol>
+  <div class="box tip"><strong>💡 網址一定要 https</strong>LIFF 只接受 https 網址，GitHub Pages 預設就是 https，所以很適合。</div>
+
+  <h2 id="liff"><span class="n">5</span>新增 LIFF 小程式</h2>
+  <ol>
+    <li>回到剛剛的 LINE Login channel，切到 <strong>LIFF</strong> 分頁，按 <strong>Add</strong>。</li>
+    <li>設定：
+      <ul>
+        <li><strong>LIFF app name</strong>：隨意</li>
+        <li><strong>Size</strong>：Full</li>
+        <li><strong>Endpoint URL</strong>：第 4 步的 GitHub Pages 網址</li>
+        <li><strong>Scopes</strong>：勾 <code>profile</code></li>
+      </ul>
+    </li>
+    <li>建立後回到 LIFF 列表，把 <strong>Share target picker</strong> 打開（On）。<strong>這步最常忘記</strong>，沒開就不能分享。</li>
+    <li>複製 <strong>LIFF ID</strong>（長得像 <code>1234567890-AbCdEfGh</code>），貼回 <code>index.html</code> 的 <code>LIFF_ID</code>，再上傳一次。</li>
+  </ol>
+
+  <h2 id="try"><span class="n">6</span>在 LINE 裡打開、發送</h2>
+  <ol>
+    <li>LIFF 網址是 <code>https://liff.line.me/你的LIFF_ID</code>。把這個網址傳給自己（或任何聊天室），在手機 LINE 裡點開。</li>
+    <li>頁面載入後按「選擇好友並送出」，會跳出 LINE 的選人畫面。</li>
+    <li>選好友或群組，按分享。對方聊天室就會出現卡片 🎉</li>
+  </ol>
+  <p>想先看效果？在 LINE 裡打開這個範例：<a href="https://liff.line.me/2011736396-qcyiLRJ3/demo.html">liff.line.me/2011736396-qcyiLRJ3/demo.html</a>（這是本文的示範小程式，如果打不開，請看下面「限制與常見問題」的 channel 狀態說明）。</p>
+
+  <h2 id="design"><span class="n">7</span>設計自己的卡片</h2>
+  <p>不要手寫 Flex JSON，用 LINE 官方的 <a href="https://developers.line.biz/flex-simulator/" target="_blank">Flex Message Simulator</a>：</p>
+  <ol>
+    <li>左上角 <strong>Showcase</strong> 有很多現成範本（餐廳、收據、行程…），挑一個接近的開始改。</li>
+    <li>左邊點元件改文字、顏色、圖片，右邊即時預覽。</li>
+    <li>按 <strong>View as JSON</strong>，複製整段 JSON。它是 <code>bubble</code>（單張）或 <code>carousel</code>（可左右滑的多張）。</li>
+    <li>貼到範例裡 <code>contents:</code> 後面，取代原本的卡片。</li>
+  </ol>
+  <p>常用元件：</p>
+  <table>
+    <tr><th>元件</th><th>用途</th></tr>
+    <tr><td><code>box</code></td><td>容器，<code>layout</code> 可以是 vertical（上下）、horizontal（左右）、baseline</td></tr>
+    <tr><td><code>text</code></td><td>文字，長文字記得加 <code>wrap: true</code> 才會換行</td></tr>
+    <tr><td><code>image</code></td><td>圖片，網址必須是 https；可以把圖片也放在同一個 GitHub repo</td></tr>
+    <tr><td><code>button</code></td><td>按鈕，這裡只能用 <code>uri</code> 動作</td></tr>
+    <tr><td><code>separator</code></td><td>分隔線</td></tr>
+  </table>
+  <div class="box tip"><strong>💡 小技巧</strong>圖片元件加 <code>animated: true</code>，放一張 APNG 動畫圖片，卡片就會動。Flex 的文字本身沒有動畫效果。</div>
+
+  <h2 id="faq"><span class="n">8</span>限制與常見問題</h2>
+  <h3>按鈕能用哪些動作？</h3>
+  <table>
+    <tr><th>按鈕動作</th><th>用 LIFF 分享能用嗎</th></tr>
+    <tr><td>開網址（uri）</td><td>✅ 可以（網址最長 1,000 字）</td></tr>
+    <tr><td>回傳資料給機器人（postback）</td><td>❌ 要官方帳號</td></tr>
+    <tr><td>替使用者送出一句話（message）</td><td>❌ 要官方帳號</td></tr>
+    <tr><td>複製文字（clipboard）</td><td>❌ 要官方帳號</td></tr>
+    <tr><td>選日期時間（datetimepicker）</td><td>❌ 要官方帳號</td></tr>
+  </table>
+  <p>「加入 Zoom」「填寫報名表」「看活動詳情」這類連到網址的按鈕都沒問題。</p>
+
+  <h3>別人打不開我的 LIFF？</h3>
+  <p>新建的 channel 是 <strong>Developing</strong>（開發中）狀態，只有管理員和測試人員能打開小程式。要給別人用，就在 channel 頁面上方把狀態從 Developing 改成 <strong>Published</strong>，或在 <strong>Roles</strong> 分頁把對方加成測試人員。<br><strong>收卡片的人不受影響</strong>：卡片送出後，任何人都看得到。</p>
+
+  <h3>顯示「無法分享」？</h3>
+  <ul>
+    <li>確認 LIFF 設定裡 <strong>Share target picker</strong> 已打開。</li>
+    <li>確認是用 <code>https://liff.line.me/…</code> 網址打開，而不是直接打開 GitHub Pages 網址。</li>
+  </ul>
+
+  <h3>按分享後出現錯誤？</h3>
+  <p>多半是 Flex JSON 有錯（少逗號、欄位名稱打錯、數值不合法）。把 JSON 貼回 Flex Message Simulator，它會指出哪裡有問題。</p>
+
+  <h3>改了網頁，LINE 裡還是舊版？</h3>
+  <p>LINE 內建瀏覽器會快取頁面（GitHub Pages 約 10 分鐘）。在網址後面加 <code>?v=2</code>、<code>?v=3</code>… 就會重新載入。</p>
+
+  <h3>選人名單裡找不到某些好友？</h3>
+  <ul>
+    <li>選人畫面不能選自己，也沒有 Keep 筆記。測試時可以發給家人，或開一個只有自己和一位朋友的小群組。</li>
+    <li>對方如果在 LINE「隱私設定」關掉「允許外部應用程式存取」，就不會出現在名單裡。</li>
+    <li>不能發到社群（OpenChat）。</li>
+  </ul>
+
+  <h3>一次可以發給很多人嗎？</h3>
+  <p>選人畫面可以一次勾多位好友或群組。但每次都要本人操作，不能寫程式自動群發；需要自動推播就要用官方帳號的 Messaging API。</p>
+
+  <h3>LIFF 以後還能用嗎？</h3>
+  <p>LINE 在 2025 年公告，建議新做的 LIFF 改成 LINE MINI App，兩者會逐步整合。目前掛在 LINE Login channel 的 LIFF 仍然可以正常使用。</p>
+</article>
+<p class="foot">參考：<a href="https://developers.line.biz/en/docs/liff/" target="_blank">LIFF 官方文件</a>・<a href="https://developers.line.biz/en/reference/liff/#share-target-picker" target="_blank">shareTargetPicker API</a>・<a href="https://developers.line.biz/flex-simulator/" target="_blank">Flex Message Simulator</a><br>版本 2026-09-30a</p>
+</main>
+<script>
+  document.querySelectorAll(".copy").forEach((b) => b.addEventListener("click", async () => {
+    const text = b.nextElementSibling.textContent;
+    try { await navigator.clipboard.writeText(text); b.textContent = "已複製"; }
+    catch (e) { b.textContent = "請手動選取"; }
+    setTimeout(() => (b.textContent = "複製"), 1500);
+  }));
+</script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>分享 Flex 卡片</title>
+<style>
+  body { margin: 0; padding: 24px 16px; font-family: system-ui, sans-serif; text-align: center; }
+  button { width: 100%; max-width: 360px; padding: 14px; font-size: 1rem; font-weight: 700;
+           color: #fff; background: #06c755; border: 0; border-radius: 12px; }
+  button:disabled { opacity: .5; }
+  #status { margin-top: 14px; color: #666; }
+</style>
+</head>
+<body>
+  <h1>分享 Flex 卡片</h1>
+  <button id="share" disabled>選擇好友並送出</button>
+  <p id="status">載入中…</p>
+
+<!-- 1. 載入 LIFF SDK -->
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<script>
+  // 2. 換成你自己的 LIFF ID
+  const LIFF_ID = "2011736396-qcyiLRJ3";
+
+  // 3. 要送出的 Flex 訊息（可以到 Flex Message Simulator 設計後貼進來）
+  const message = {
+    type: "flex",
+    altText: "讀書會提醒：週四晚上 8 點",   // 聊天列表與通知顯示的文字
+    contents: {
+      type: "bubble",
+      header: {
+        type: "box", layout: "vertical", backgroundColor: "#06c755", paddingAll: "16px",
+        contents: [
+          { type: "text", text: "讀書會提醒", color: "#ffffff", size: "xl", weight: "bold" },
+          { type: "text", text: "週四 20:00｜線上", color: "#e8fff0", size: "sm" }
+        ]
+      },
+      body: {
+        type: "box", layout: "vertical", spacing: "md",
+        contents: [
+          { type: "text", text: "這次讀第 3 章，記得先看完再來喔！", wrap: true },
+          { type: "text", text: "這張卡片是用 LIFF shareTargetPicker 從個人帳號送出的。", wrap: true, size: "xs", color: "#888888" }
+        ]
+      },
+      footer: {
+        type: "box", layout: "vertical",
+        contents: [
+          // 用 LIFF 分享的卡片，按鈕只能用 uri（開網址）
+          { type: "button", style: "primary", color: "#06c755",
+            action: { type: "uri", label: "看教學文章", uri: "https://iantpe.github.io/liff-share-test/guide.html" } }
+        ]
+      }
+    }
+  };
+
+  const $ = (id) => document.getElementById(id);
+
+  async function main() {
+    // 4. 初始化 LIFF
+    await liff.init({ liffId: LIFF_ID });
+    if (!liff.isLoggedIn()) { liff.login(); return; }           // 在一般瀏覽器打開時先登入
+    if (!liff.isApiAvailable("shareTargetPicker")) {
+      $("status").textContent = "無法分享：請在 LINE 裡打開，並在 LIFF 設定開啟 Share target picker。";
+      return;
+    }
+    $("share").disabled = false;
+    $("status").textContent = "";
+
+    // 5. 按下按鈕 → 跳出 LINE 的選好友畫面 → 送出
+    $("share").onclick = async () => {
+      try {
+        const res = await liff.shareTargetPicker([message]);   // 一次最多 5 則
+        $("status").textContent = res ? "已送出 ✅" : "已取消";
+      } catch (e) {
+        $("status").textContent = "失敗：" + e.message;           // 多半是 Flex JSON 格式有誤
+      }
+    };
+  }
+  main().catch((e) => { $("status").textContent = "LIFF 初始化失敗：" + e.message; });
+</script>
+</body>
+</html>
